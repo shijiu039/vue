@@ -5,6 +5,9 @@ import Home from '../views/user/Home.vue'
 import Register from '../views/user/UserRegister.vue'
 import ARegister from '../views/admin/AdminRegister.vue'
 import Person from '../views/user/UserHomepage.vue'
+import ImageM from '../views/admin/imagemanagement.vue'
+import TextM from '../views/admin/textmanagement.vue'
+import UserM from '../views/admin/usermanagement.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -37,6 +40,21 @@ const router = createRouter({
       path: '/personal-center',
       name: 'personal-center',
      component:Person
+    },
+    {
+      path: '/UserM',
+      name: 'Admin-User',
+     component:UserM
+    },
+    {
+      path: '/TextM',
+      name: 'Admin-Text',
+     component:TextM
+    },
+    {
+      path: '/ImageM',
+      name: 'admin-Image',
+     component:ImageM
     },
   ]
 })

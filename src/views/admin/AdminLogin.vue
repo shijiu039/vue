@@ -33,13 +33,13 @@
       console.log(usermail.value);
       console.log(password.value);
       // 假设登录成功
-      router.push('/AdminHome'); // 登录成功后跳转到管理员主页
+      router.push('/UserM'); // 登录成功后跳转到管理员主页
     }; 
     const register = () => {
       router.push('/ARegister'); // 登录成功后跳转到主页
     };
     const user = () => {
-      router.push('/'); // 登录成功后跳转到主页
+      router.push('/'); 
     };
   </script>
     
