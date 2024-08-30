@@ -120,15 +120,15 @@ export default {
     },
     goToTextManagement() {
       // 使用 this.$router.push() 方法导航到新的路由
-      this.$router.push('/admintext');
+      this.$router.push('/TextM');
     },
     goToUserManagement() {
       // 使用 this.$router.push() 方法导航到新的路由
-      this.$router.push('/adminuser');
+      this.$router.push('/UserM');
     },
     goToImageManagement() {
       // 使用 this.$router.push() 方法导航到新的路由
-      this.$router.push('/adminimage');
+      this.$router.push('/ImageM');
     },
   }
 };
