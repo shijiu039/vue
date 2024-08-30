@@ -1,22 +1,25 @@
 <template>
-  <div class="login-container">
-      <h1>登录</h1>
-      <div class="input-group">
+  <div class="fixed-layout">
+    <div class="login-container">
+      <img src="./public/Logo.png" alt="Description"></img>
+        <h1>登录</h1>
+        <div class="input-group">
         <label for="usermail">邮箱:</label>
         <el-input v-model="usermail" style="width: 240px" id="usermail" placeholder="Please input"></el-input>
       </div>
       <div class="input-group">
-        <label for="password">密码:</label>
-        <el-input v-model="password" style="width: 240px" id="password" type="password" placeholder="Please input password" show-password></el-input>
+          <label for="password">密码:</label>
+          <el-input v-model="password" style="width: 240px" id="password" type="password" placeholder="Please input password" show-password></el-input>
       </div>
       <div class="button_group">
-      <el-button type="primary" @click="login">登录</el-button>
-      <el-button type="primary" @click="register">注册</el-button>
+        <el-button type="primary" @click="login">登录</el-button>
+        <el-button type="primary" @click="register">注册</el-button>
       </div>
+    </div>
   </div>
 </template>
   
-  <script setup>
+<script setup>
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
   
@@ -34,9 +37,9 @@
   const register = () => {
     router.push('/register'); // 登录成功后跳转到主页
   };
-  </script>
+</script>
   
-  <style>
+<style>
   .login-container {
     display: flex;
     flex-direction: column;
@@ -57,4 +60,4 @@
     gap: 10px; /* 在元素之间添加一些间距 */
   }
   /* 如果需要，可以添加其他样式来进一步美化登录表单 */
-  </style>
+</style>
