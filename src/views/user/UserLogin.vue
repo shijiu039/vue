@@ -14,6 +14,7 @@
       <div class="button_group">
         <el-button type="primary" @click="login">登录</el-button>
         <el-button type="primary" @click="register">注册</el-button>
+        <el-button type="primary" @click="admin">我是管理员</el-button>
       </div>
     </div>
   </div>
@@ -36,6 +37,9 @@
   }; 
   const register = () => {
     router.push('/register'); // 登录成功后跳转到主页
+  };
+  const admin = () => {
+    router.push('/ALogin'); // 登录成功后跳转到主页
   };
 </script>
   

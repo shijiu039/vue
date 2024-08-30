@@ -1,7 +1,26 @@
 <template>
   <div class="app-container">
     <header class="header">
-      Chat Application
+      <div class="header-title">
+        Chat Application
+      </div>
+      <div class="header-user">
+        <el-dropdown>
+          <span class="el-dropdown-link">
+            {{username}}
+            <el-icon class="el-icon--right">
+              <arrow-down />
+            </el-icon>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item><router-link to="/personal-center" class="dropdown-item" exact>个人主页</router-link></el-dropdown-item>
+             
+              <el-dropdown-item><a href="#" class="dropdown-item" @click.prevent="logout">退出登录</a></el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
     </header>
     <nav class="sidebar">
       <ul>
@@ -29,10 +48,12 @@
 </template>
 
 <script lang="ts">
+import router from '@/router';
 import { defineComponent, ref, onMounted, nextTick, watchEffect } from 'vue';
 
 export default defineComponent({
   setup() {
+    const username = 'John Doe'; // Replace with actual username logic
     const newMessage = ref('');
     const sessions = ref([
       {
@@ -95,7 +116,15 @@ export default defineComponent({
         chatHistory.value.scrollTop = chatHistory.value.scrollHeight;
       }
     };
-
+    const logout = () => {
+      // 清除用户的认证状态或其他相关数据
+      localStorage.removeItem('token'); // 示例：删除本地存储的 token
+      localStorage.removeItem('user');  // 示例：删除本地存储的用户信息
+      
+      // 跳转到登录页面
+      router.push('/');
+    };
+    
     onMounted(() => {
       scrollToBottom();
     });
@@ -105,6 +134,7 @@ export default defineComponent({
     });
 
     return {
+      username,
       newMessage,
       sessions,
       currentSession,
@@ -112,13 +142,21 @@ export default defineComponent({
       selectSession,
       addNewSession,
       chatHistory,
-      uploadImage
+      uploadImage,
+      logout
     };
   }
 });
 </script>
 
 <style scoped>
+.example-showcase .el-dropdown-link {
+  cursor: pointer;
+  color: var(--el-color-primary);
+  display: flex;
+  align-items: center;
+}
+
 .app-container {
   display: flex;
   flex-direction: column;
@@ -131,12 +169,28 @@ export default defineComponent({
   left: 0;
   width: 100%;
   height: 60px;
-  background-color: #333;
+  background-color: #1f1e33;
   color: white;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   z-index: 1000;
+}
+
+.header-title {
+  padding-left: 20px;
+  
+}
+
+.header-user {
+  padding-right: 20px;
+  
+}
+
+.user-link {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .sidebar {
@@ -145,7 +199,7 @@ export default defineComponent({
   left: 0;
   bottom: 0;
   width: 200px;
-  background-color: #f0f0f0;
+  background-color: hsla(194, 100%, 93%, 0.765);
   overflow-y: auto;
   z-index: 999;
 }
