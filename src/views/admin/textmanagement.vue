@@ -73,192 +73,87 @@
   </div>
 </template>
 
-<script>
-  import {
-    User,
-    Picture,
-    Document
-  } from '@element-plus/icons-vue';
+<script setup>
+import { User, Picture, Document } from '@element-plus/icons-vue';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-  export default {
-    components: {
-      User,
-      Picture,
-      Document
-    },
-    data() {
-      return {
-        // 示例文本数据
-        textList: [{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },
-          {
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },
-          {
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },
-        ],
-        imageCount: 1000,
-        textCount: 2000,
-        searchText: '' // 搜索文本内容
-      };
-    },
-    methods: {
+const textList = ref([
+  {
+    info: 'jgjng',
+    id: "1",
+    uploadTime: 'dsads'
+  },
+  // 更多文本数据...
+]);
 
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      goToTextManagement() {
-        // 使用 this.$router.push() 方法导航到新的路由
-        this.$router.push('/TextM');
-      },
-      goToUserManagement() {
-        // 使用 this.$router.push() 方法导航到新的路由
-        this.$router.push('/UserM');
-      },
-      goToImageManagement() {
-        // 使用 this.$router.push() 方法导航到新的路由
-        this.$router.push('/ImageM');
-      },
-      searchTexts() {
-        // 搜索文本的逻辑
-        console.log('搜索文本:', this.searchText);
-        // 这里可以添加搜索文本的API调用
+const imageCount = ref(1000);
+const textCount = ref(2000);
+const searchText = ref(''); // 搜索文本内容
 
-      },
-      async Textdelete(row) {
-        // 删除文本的逻辑
-        console.log('删除文本:', row.id);
-        try {
-          // 调用后端API来删除文本
-          // 注意：这里假设后端API需要接收一个包含ID的对象
-          const response = await this.$http.post(`/adminstrator/user_dele`, {
-            id: row.id
-          });
-          // 处理响应，例如更新文本列表
-          if (response.status === 200) {
-            // 假设后端返回了删除成功的状态
-            this.$message({
-              type: 'success',
-              message: '文本删除成功!'
-            });
-            // 从前端列表中移除已删除的文本
-            const index = this.textList.findIndex(text => text.id === row.id);
-            if (index !== -1) {
-              this.textList.splice(index, 1);
-            }
-          } else {
-            // 处理其他状态码
-            this.$message({
-              type: 'error',
-              message: '文本删除失败!'
-            });
-          }
-        } catch (error) {
-          // 处理网络错误或API错误
-          console.error('删除文本失败:', error);
-          this.$message({
-            type: 'error',
-            message: '文本删除失败!'
-          });
-        }
-      },
+const router = useRouter();
+
+const handleOpen = (key, keyPath) => {
+  console.log(key, keyPath);
+};
+
+const handleClose = (key, keyPath) => {
+  console.log(key, keyPath);
+};
+
+const goToTextManagement = () => {
+  router.push('/TextM');
+};
+
+const goToUserManagement = () => {
+  router.push('/UserM');
+};
+
+const goToImageManagement = () => {
+  router.push('/ImageM');
+};
+
+const searchTexts = () => {
+  console.log('搜索文本:', searchText.value);
+  // 这里可以添加搜索文本的API调用
+};
+
+const Textdelete = async (row) => {
+  console.log('删除文本:', row.id);
+  try {
+    // 调用后端API来删除文本
+    // 注意：这里假设后端API需要接收一个包含ID的对象
+    const response = await this.$http.post(`/adminstrator/user_dele`, {
+      id: row.id
+    });
+    // 处理响应，例如更新文本列表
+    if (response.status === 200) {
+      // 假设后端返回了删除成功的状态
+      this.$message({
+        type: 'success',
+        message: '文本删除成功!'
+      });
+      // 从前端列表中移除已删除的文本
+      const index = textList.value.findIndex(text => text.id === row.id);
+      if (index !== -1) {
+        textList.value.splice(index, 1);
+      }
+    } else {
+      // 处理其他状态码
+      this.$message({
+        type: 'error',
+        message: '文本删除失败!'
+      });
     }
-  };
+  } catch (error) {
+    // 处理网络错误或API错误
+    console.error('删除文本失败:', error);
+    this.$message({
+      type: 'error',
+      message: '文本删除失败!'
+    });
+  }
+};
 </script>
 
 

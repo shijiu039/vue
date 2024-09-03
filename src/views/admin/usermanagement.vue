@@ -74,62 +74,81 @@
   </div>
 </template>
 
-<script>
-  import {
-    User,
-    Picture,
-    Document
-  } from '@element-plus/icons-vue';
+<script setup>
+import { User, Picture, Document } from '@element-plus/icons-vue';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-  export default {
-    components: {
-      User, // 注册用户图标组件
-      Picture, // 注册图片图标组件
-      Document // 注册文档图标组件
-    },
-    data() {
-      return {
-        // 示例用户数据
-        userList: [{
-            name: '张三',
-            email: 'zhangsan@example.com',
-          },
-          {
-            name: '李四',
-            email: 'lisi@example.com',
-          },
-          // 更多用户数据...
-        ],
-        // 用户数量
-        userCount: 100,
-        // 数据库图片数量
-        imageCount: 1000,
-        // 数据库文本数量
-        textCount: 2000
-      };
-    },
-    methods: {
-      // 菜单打开和关闭事件处理
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      goToTextManagement() {
-        // 使用 this.$router.push() 方法导航到新的路由
-        this.$router.push('/TextM');
-      },
-      goToUserManagement() {
-        // 使用 this.$router.push() 方法导航到新的路由
-        this.$router.push('/UserM');
-      },
-      goToImageManagement() {
-        // 使用 this.$router.push() 方法导航到新的路由
-        this.$router.push('/ImageM');
-      },
+const userList = ref([
+  {
+    name: '张三',
+    email: 'zhangsan@example.com',
+  },
+  {
+    name: '李四',
+    email: 'lisi@example.com',
+  },
+  // 更多用户数据...
+]);
+
+const userCount = ref(100);
+const imageCount = ref(1000);
+const textCount = ref(2000);
+
+const router = useRouter();
+
+const handleOpen = (key, keyPath) => {
+  console.log(key, keyPath);
+};
+
+const handleClose = (key, keyPath) => {
+  console.log(key, keyPath);
+};
+
+const goToTextManagement = () => {
+  router.push('/TextM');
+};
+
+const goToUserManagement = () => {
+  router.push('/UserM');
+};
+
+const goToImageManagement = () => {
+  router.push('/ImageM');
+};
+
+const deleteUser = async (row) => {
+  try {
+    // 发送DELETE请求到后端API来删除用户
+    const response = await this.$http.delete(`/administrator/user_dele/${row.id}`);
+    // 处理响应
+    if (response.status === 200) {
+      // 假设后端返回了删除成功的状态
+      this.$message({
+        type: 'success',
+        message: '用户删除成功!'
+      });
+      // 更新用户列表，移除已删除的用户
+      const index = userList.value.findIndex(user => user.id === row.id);
+      if (index !== -1) {
+        userList.value.splice(index, 1);
+      }
+    } else {
+      // 处理其他状态码
+      this.$message({
+        type: 'error',
+        message: '用户删除失败!'
+      });
     }
-  };
+  } catch (error) {
+    // 处理网络错误或API错误
+    console.error('用户删除失败:', error);
+    this.$message({
+      type: 'error',
+      message: '用户删除失败!'
+    });
+  }
+};
 </script>
 
 <style>
