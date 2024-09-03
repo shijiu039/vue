@@ -1,15 +1,20 @@
 <template>
   <div class="fixed-layout">
     <div class="login-container">
-      <img src="./public/Logo.png" alt="Description"></img>
-        <h1>登录</h1>
-        <div class="input-group">
-        <label for="usermail">邮箱:</label>
-        <el-input v-model="usermail" style="width: 240px" id="usermail" placeholder="Please input"></el-input>
+      <img src="./public/Logo.png" alt="Description" />
+      <h1>登录</h1>
+      <div class="input-group">
+        <label for="email">邮箱:</label>
+        <el-input v-model="email" style="width: 340px" id="email" placeholder="请输入邮箱"></el-input>
       </div>
       <div class="input-group">
-          <label for="password">密码:</label>
-          <el-input v-model="password" style="width: 240px" id="password" type="password" placeholder="Please input password" show-password></el-input>
+        <label for="v-code">验证码:</label>
+        <div class="input-with-button">
+          <el-input v-model="v_code" style="width: 235px" id="v_code" type="v_code" placeholder="请输入验证码" show-password></el-input>
+          <a @click.prevent="getVerificationCode" class="get-code-btn">
+            获取验证码</a>
+        </div>
+
       </div>
       <div class="button_group">
         <el-button type="primary" @click="login">登录</el-button>
@@ -19,49 +24,125 @@
     </div>
   </div>
 </template>
-  
+
 <script setup>
-  import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
-  
-  const usermail = ref('');
-  const password = ref('');
-  const router = useRouter();
-  
-  const login = () => {
-    // 登录逻辑
-    console.log(usermail.value);
-    console.log(password.value);
-    // 假设登录成功
-    router.push('/home'); // 登录成功后跳转到主页
-  }; 
-  const register = () => {
-    router.push('/register'); // 登录成功后跳转到主页
-  };
-  const admin = () => {
-    router.push('/ALogin'); // 登录成功后跳转到主页
-  };
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+
+const email = ref('1669929153@qq.com');
+const v_code = ref('');
+const router = useRouter();
+
+const login = async () => {
+  // 登录逻辑
+  console.log(email.value);
+  console.log(v_code.value);
+
+  if (email.value === '') { // 确保使用正确的变量
+    alert('请输入邮箱地址');
+    return;
+  }
+
+  try {
+    // 构造请求体
+    const body = new URLSearchParams({
+      'email': email.value,
+      'v_code': v_code.value // 确保使用正确的变量
+    }).toString();
+
+    // 发送 POST 请求
+    const response = await fetch('http://192.168.188.92:5000/user/login', {
+      method: 'POST', // 指定请求方法
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
+      },
+      body: body // 将表单数据作为请求体
+    });
+
+    if (!response.ok) { // 检查HTTP状态码是否为200-299之间的成功状态
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json(); // 解析返回的JSON数据
+
+    if (data.code === 0) {
+      console.log('Login successful:', data.message);
+      alert(data.message);
+      router.push('/home'); // 登录成功后跳转到主页
+    } else {
+      console.log('Login failed:', data.message);
+      alert(data.message);
+    }
+  } catch (error) {
+    alert('登录失败，请检查您的凭证');
+    console.error('Login failed:', error);
+    
+    // 下面的跳转代码开发管理员页面时测试用，全写完之后记得删
+    // router.push('/home'); // 登录成功后跳转到主页
+  }
+};
+const register = () => 
+{
+  router.push('/register'); // 注册后跳转到注册页面
+};
+
+const admin = () => 
+{
+  router.push('/ALogin'); // 管理员登录
+};
+// 获取验证码的逻辑
+const getVerificationCode = async () => {
+  if (email.value === '') {
+    alert('请输入邮箱地址');
+    return;
+  }
+
+  try {
+    // 创建URLSearchParams对象来构建请求体
+
+    const body = new URLSearchParams({ 'email': email.value }).toString();
+
+    const response = await fetch('http://192.168.188.92:5000/user/verify', {
+      method: 'POST', // 指定请求方法
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
+      },
+      
+      body:body// 将FormData转换成字符串形式
+    });
+
+    if (!response.ok) { // 检查HTTP状态码是否为200-299之间的成功状态
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json(); // 解析返回的JSON数据
+    console.log('Verification code sent successfully:', data);
+    // 处理发送验证码成功后的逻辑
+  } catch (error) {
+    alert('获取验证码失败');
+    console.error('Verification code request failed:', error);
+  }
+};
 </script>
-  
-<style>
-  .login-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh; /* 使用视口高度单位 */
-    gap: 10px; /* 在元素之间添加一些间距 */
-  }
-  
-  .input-group {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* 在元素之间添加一些间距 */
-  }
-  .button-group {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* 在元素之间添加一些间距 */
-  }
-  /* 如果需要，可以添加其他样式来进一步美化登录表单 */
+
+<style scoped>
+.input-with-button {
+  display: flex;
+  align-items: center;
+}
+
+.get-code-btn {
+  margin-left: 10px;
+  padding: 5px; /* 调整为合适的大小 */
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: #409EFF; /* Element UI 主题色 */
+  text-decoration: underline;
+}
+
+.get-code-btn:hover {
+  color: #66b1ff; /* 鼠标悬停时的颜色 */
+}
 </style>

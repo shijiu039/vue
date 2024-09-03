@@ -4,12 +4,12 @@
         <img src="./public/latest.png" alt="Image"></img>
           <h1>管理员登录</h1>
           <div class="input-group">
-          <label for="usermail">邮箱:</label>
-          <el-input v-model="usermail" style="width: 240px" id="usermail" placeholder="Please input"></el-input>
+          <label for="administrator_email">邮箱:</label>
+          <el-input v-model="administrator_email" style="width: 240px" id="administrator_email" placeholder="请输入邮箱"></el-input>
         </div>
         <div class="input-group">
             <label for="password">密码:</label>
-            <el-input v-model="password" style="width: 240px" id="password" type="password" placeholder="Please input password" show-password></el-input>
+            <el-input v-model="password" style="width: 240px" id="password" type="password" placeholder="请输入密码" show-password></el-input>
         </div>
         <div class="button_group">
           <el-button type="primary" @click="login">登录</el-button>
@@ -23,59 +23,72 @@
   <script setup>
     import { ref } from 'vue';
     import { useRouter } from 'vue-router';
+    import axios from 'axios';
     
-    const usermail = ref('');
+    const administrator_email = ref('');
     const password = ref('');
     const router = useRouter();
     
     const login = async () => {
-  // 验证用户输入的电子邮件地址和密码是否非空
-  if (!usermail.value || !password.value) {
-    this.$message({
-      type: 'error',
-      message: '请填写电子邮件地址和密码'
-    });
+  // 登录逻辑
+  console.log(administrator_email.value);
+  console.log(password.value);
+
+  if (administrator_email.value === '') {
+    alert('请输入邮箱地址');
     return;
   }
 
-  // 发送POST请求到登录接口
   try {
-    const response = await this.$http.post(`/administrator/login/${usermail.value}`, {
-      password: password.value
+    // 构造请求体
+    const body = new URLSearchParams({
+      'administrator_email': administrator_email.value,
+      'password': password.value
+    }).toString();
+
+    // 发送 POST 请求
+    const response = await fetch('http://192.168.188.92:5000/administrator/login', {
+      method: 'POST', // 指定请求方法
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
+      },
+      body: body // 将表单数据作为请求体
     });
-    // 处理响应
-    if (response.status === 200) {
-      // 登录成功
-      this.$message({
-        type: 'success',
-        message: '登录成功!'
-      });
-      // 可以根据需要进行其他操作，例如跳转到主页
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json(); // 解析返回的JSON数据
+
+    // 检查返回的 JSON 数据中的 code 参数
+    if (data.code === 0) {
+      console.log('Login successful:', data.message);
+      alert('登录成功');
       router.push('/UserM'); // 登录成功后跳转到管理员主页
     } else {
-      // 登录失败
-      this.$message({
-        type: 'error',
-        message: '登录失败!'
-      });
+      console.log('Login failed:', data.message);
+      alert(data.message);
     }
   } catch (error) {
-    // 处理错误
-    console.error('登录失败:', error);
-    this.$message({
-      type: 'error',
-      message: '登录失败!'
-    });
-  }}
-  const register = async () =>{
-    router.push('ARegister')
+    alert('登录失败，请检查您的凭证');
+    console.error('Login failed:', error);
+
+    // 下面的跳转代码开发管理员页面时测试用，全写完之后记得删
+    // router.push('/UserM');
   }
-  const user = async () =>{
-    router.push('/')
-  }
+};
+
+    const register = () => 
+    {
+      router.push('/ARegister'); // 登录成功后跳转到主页
+    };
+    const user = () => 
+    {
+      router.push('/'); 
+    };
   </script>
- 
- 
+    
   <style>
     .login-container {
       display: flex;
