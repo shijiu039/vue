@@ -1,0 +1,131 @@
+[33mcommit aef0daac14b63025e9b106cbe9a35c9ab938e078[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Author: Gmg <3425211878@qq.com>
+Date:   Tue Sep 3 15:41:23 2024 +0800
+
+    管理员界面更新9.3
+
+[33mcommit 6e0a20c3da8d59fd0dc0aa519405854584c75da9[m
+Author: Gmg <3425211878@qq.com>
+Date:   Tue Sep 3 14:07:07 2024 +0800
+
+    管理员主页更新
+
+[33mcommit 7e3ea5abf9dcc1da2218f61d9904cf217c007bdb[m
+Author: Gmg <3425211878@qq.com>
+Date:   Tue Sep 3 09:21:50 2024 +0800
+
+    前端与部分管理员接口
+
+[33mcommit 3260d71f444d56f1ff6a53dc54cdb14621b724c0[m
+Author: Gmg <3425211878@qq.com>
+Date:   Tue Sep 3 09:04:07 2024 +0800
+
+    完成前端与部分管理员接口
+
+[33mcommit e51db5d4a32853e754e1fa08d13f1e4ac9a0d6e1[m
+Author: Louis-6015 <1669929153@qq.com>
+Date:   Fri Aug 30 17:32:21 2024 +0800
+
+    完成了基本路由
+
+[33mcommit c2425d4b05773e2a306d0edadaae119c9834b83f[m
+Merge: ca928ad 61bf53b
+Author: Louis-6015 <1669929153@qq.com>
+Date:   Fri Aug 30 17:25:58 2024 +0800
+
+    Merge branch 'master' of https://github.com/shijiu039/vue
+
+[33mcommit ca928ade4d13f1d7c82e0ae64886e9a61c22b251[m
+Author: Louis-6015 <1669929153@qq.com>
+Date:   Fri Aug 30 17:25:22 2024 +0800
+
+    完成了基本路由
+
+[33mcommit 61bf53b8ac9c55eea79c60149e838bf371293918[m
+Author: GmG-qwq <3425211878@qq.com>
+Date:   Fri Aug 30 17:10:28 2024 +0800
+
+    Add files via upload
+    
+    管理员管理界面
+
+[33mcommit 4c71ef570845e7e534a401f7965f02fe3170802b[m
+Author: Louis-6015 <1669929153@qq.com>
+Date:   Fri Aug 30 16:41:50 2024 +0800
+
+    基本完成了home主页面，还剩一些交互需要接口文档
+
+[33mcommit 91048d51ec26c8f7374ad5b20e7a2ca58346adfc[m
+Author: Louis-6015 <1669929153@qq.com>
+Date:   Fri Aug 30 11:58:07 2024 +0800
+
+    完善了home主页面
+
+[33mcommit 574d6d54c65dc581619445154eaf8ce65d4d1ef5[m
+Merge: 5a769f5 fcecb07
+Author: shijiu039 <3024043152@qq.com>
+Date:   Thu Aug 29 23:30:38 2024 +0800
+
+    Merge pull request #3 from shijiu039/zzx
+    
+    第一天vue成果
+
+[33mcommit fcecb07cfc49768fdaddcc8570145a877ea605b6[m
+Author: shijiu <2084609377@qq.com>
+Date:   Thu Aug 29 23:28:59 2024 +0800
+
+    vue01
+
+[33mcommit 5a769f543f20178a9fc94c7bee13f25438aac7f0[m
+Author: shijiu039 <3024043152@qq.com>
+Date:   Thu Aug 29 22:18:20 2024 +0800
+
+    Create README.md
+
+[33mcommit d3b1c9d3508a867850c43f87221b8075dd436ba5[m
+Merge: aafc15b 08d88d9
+Author: shijiu039 <3024043152@qq.com>
+Date:   Thu Aug 29 17:23:47 2024 +0800
+
+    Merge pull request #2 from shijiu039/master
+    
+    Delete test.txt
+
+[33mcommit aafc15b2733ddb7ddadbae3155b18c849cd58087[m
+Merge: df4985c 0c02ab1
+Author: shijiu039 <3024043152@qq.com>
+Date:   Thu Aug 29 17:19:43 2024 +0800
+
+    Merge pull request #1 from shijiu039/zzx
+    
+    Delete test.txt
+
+[33mcommit 0c02ab197234d4e9baea767c994beecaf5feb5ea[m
+Author: shijiu039 <3024043152@qq.com>
+Date:   Thu Aug 29 17:16:10 2024 +0800
+
+    Delete test.txt
+
+[33mcommit 08d88d95a502d64122aa81307d916eef35aeb048[m
+Author: shijiu039 <3024043152@qq.com>
+Date:   Thu Aug 29 17:06:17 2024 +0800
+
+    Delete test.txt
+
+[33mcommit df4985c9fa51e6b3cacf564fae9af0432e62f148[m
+Author: shijiu039 <3024043152@qq.com>
+Date:   Thu Aug 29 16:59:50 2024 +0800
+
+    Delete test.txt
+
+[33mcommit 03e005c56de0ff688c8fd1b978434fdb5e8c9b70[m
+Author: Gmg <3425211878@qq.com>
+Date:   Thu Aug 29 14:59:01 2024 +0800
+
+    upload2
+
+[33mcommit d2bc7bb10f0d8498fc4e2092f7edb3e8eea71153[m
+Author: Gmg <3425211878@qq.com>
+Date:   Thu Aug 29 14:41:53 2024 +0800
+
+    test_upload
