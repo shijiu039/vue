@@ -61,12 +61,14 @@
           </el-table>
         </el-main>
         <el-footer>
-          <el-upload action="/administrator/image-upload" :on-preview="handlePreview" :on-remove="handleRemove"
-            :before-remove="beforeRemove" multiple :limit="3" :on-exceed="handleExceed" :file-list="fileList">
-            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-            <el-button style="margin-left: 10px;" size="small" type="success" @click="TextUpload">上传到服务器</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
+            <el-input v-model="textinput" style="width: 500px;" placeholder="上传文本">
+              <template #prefix>
+                <el-icon class="el-input__icon">
+                  <search />
+                </el-icon>
+              </template>
+            </el-input>
+            <el-button size="small" type="primary" style="width :200;margin-right: 700px;margin-left: 100px;height: 50%;" @click="uploadTexts ">上传到服务器</el-button>
         </el-footer>
       </el-container>
     </el-container>
@@ -74,86 +76,97 @@
 </template>
 
 <script setup>
-import { User, Picture, Document } from '@element-plus/icons-vue';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+  import {
+    User,
+    Picture,
+    Document,
+    Search,
+  } from '@element-plus/icons-vue';
+  import {
+    ref
+  } from 'vue';
+  import {
+    useRouter
+  } from 'vue-router';
 
-const textList = ref([
-  {
-    info: 'jgjng',
-    id: "1",
-    uploadTime: 'dsads'
-  },
-  // 更多文本数据...
-]);
+  const textList = ref([{
+      info: 'jgjng',
+      id: "1",
+      uploadTime: 'dsads'
+    },
+    // 更多文本数据...
+  ]);
+  const textinput = ref('');
+  const imageCount = ref(1000);
+  const textCount = ref(2000);
+  const searchText = ref(''); // 搜索文本内容
 
-const imageCount = ref(1000);
-const textCount = ref(2000);
-const searchText = ref(''); // 搜索文本内容
+  const router = useRouter();
 
-const router = useRouter();
+  // const handleOpen = (key, keyPath) => {
+  //   console.log(key, keyPath);
+  // };
 
-const handleOpen = (key, keyPath) => {
-  console.log(key, keyPath);
-};
+  // const handleClose = (key, keyPath) => {
+  //   console.log(key, keyPath);
+  // };
 
-const handleClose = (key, keyPath) => {
-  console.log(key, keyPath);
-};
+  const goToTextManagement = () => {
+    router.push('/TextM');
+  };
 
-const goToTextManagement = () => {
-  router.push('/TextM');
-};
+  const goToUserManagement = () => {
+    router.push('/UserM');
+  };
 
-const goToUserManagement = () => {
-  router.push('/UserM');
-};
+  const goToImageManagement = () => {
+    router.push('/ImageM');
+  };
 
-const goToImageManagement = () => {
-  router.push('/ImageM');
-};
+  const searchTexts = () => {
+    console.log('搜索文本:', searchText.value);
+    // 这里可以添加搜索文本的API调用
+  };
 
-const searchTexts = () => {
-  console.log('搜索文本:', searchText.value);
-  // 这里可以添加搜索文本的API调用
-};
-
-const Textdelete = async (row) => {
-  console.log('删除文本:', row.id);
-  try {
-    // 调用后端API来删除文本
-    // 注意：这里假设后端API需要接收一个包含ID的对象
-    const response = await this.$http.post(`/adminstrator/user_dele`, {
-      id: row.id
-    });
-    // 处理响应，例如更新文本列表
-    if (response.status === 200) {
-      // 假设后端返回了删除成功的状态
-      this.$message({
-        type: 'success',
-        message: '文本删除成功!'
+  const Textdelete = async (row) => {
+    console.log('删除文本:', row.id);
+    try {
+      // 调用后端API来删除文本
+      // 注意：这里假设后端API需要接收一个包含ID的对象
+      const response = await this.$http.post(`/adminstrator/user_dele`, {
+        id: row.id
       });
-      // 从前端列表中移除已删除的文本
-      const index = textList.value.findIndex(text => text.id === row.id);
-      if (index !== -1) {
-        textList.value.splice(index, 1);
+      // 处理响应，例如更新文本列表
+      if (response.status === 200) {
+        // 假设后端返回了删除成功的状态
+        this.$message({
+          type: 'success',
+          message: '文本删除成功!'
+        });
+        // 从前端列表中移除已删除的文本
+        const index = textList.value.findIndex(text => text.id === row.id);
+        if (index !== -1) {
+          textList.value.splice(index, 1);
+        }
+      } else {
+        // 处理其他状态码
+        this.$message({
+          type: 'error',
+          message: '文本删除失败!'
+        });
       }
-    } else {
-      // 处理其他状态码
+    } catch (error) {
+      // 处理网络错误或API错误
+      console.error('删除文本失败:', error);
       this.$message({
         type: 'error',
         message: '文本删除失败!'
       });
     }
-  } catch (error) {
-    // 处理网络错误或API错误
-    console.error('删除文本失败:', error);
-    this.$message({
-      type: 'error',
-      message: '文本删除失败!'
-    });
-  }
-};
+    const uploadTexts = async (textinput) => {
+
+    }
+  };
 </script>
 
 

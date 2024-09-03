@@ -105,14 +105,14 @@ export default {
     // 路由器实例
     const router = useRouter();
 
-    // 定义方法
-    const handleOpen = (key, keyPath) => {
-      console.log(key, keyPath);
-    };
+    // // 定义方法
+    // const handleOpen = (key, keyPath) => {
+    //   console.log(key, keyPath);
+    // };
 
-    const handleClose = (key, keyPath) => {
-      console.log(key, keyPath);
-    };
+    // const handleClose = (key, keyPath) => {
+    //   console.log(key, keyPath);
+    // };
 
     const goToTextManagement = () => {
       router.push('/TextM');
@@ -130,7 +130,7 @@ export default {
       console.log('删除图片:', row.id);
       try {
         // 调用后端API来删除图片
-        const response = await this.$http.delete(`/api/images/${row.id}`);
+        const response = await this.$http.post(`/api/images/${row.id}`);
         // 处理响应，例如更新图片列表
         if (response.status === 200) {
           // 假设后端返回了删除成功的状态

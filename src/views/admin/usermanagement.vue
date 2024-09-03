@@ -97,13 +97,13 @@ const textCount = ref(2000);
 
 const router = useRouter();
 
-const handleOpen = (key, keyPath) => {
-  console.log(key, keyPath);
-};
+// const handleOpen = (key, keyPath) => {
+//   console.log(key, keyPath);
+// };
 
-const handleClose = (key, keyPath) => {
-  console.log(key, keyPath);
-};
+// const handleClose = (key, keyPath) => {
+//   console.log(key, keyPath);
+// };
 
 const goToTextManagement = () => {
   router.push('/TextM');
@@ -120,7 +120,7 @@ const goToImageManagement = () => {
 const deleteUser = async (row) => {
   try {
     // 发送DELETE请求到后端API来删除用户
-    const response = await this.$http.delete(`/administrator/user_dele/${row.id}`);
+    const response = await this.$http.post(`/administrator/user_dele/${row.id}`);
     // 处理响应
     if (response.status === 200) {
       // 假设后端返回了删除成功的状态
