@@ -28,21 +28,54 @@
     const password = ref('');
     const router = useRouter();
     
-    const login = () => {
-      // 登录逻辑
-      console.log(usermail.value);
-      console.log(password.value);
-      // 假设登录成功
+    const login = async () => {
+  // 验证用户输入的电子邮件地址和密码是否非空
+  if (!usermail.value || !password.value) {
+    this.$message({
+      type: 'error',
+      message: '请填写电子邮件地址和密码'
+    });
+    return;
+  }
+
+  // 发送POST请求到登录接口
+  try {
+    const response = await this.$http.post(`/administrator/login/${usermail.value}`, {
+      password: password.value
+    });
+    // 处理响应
+    if (response.status === 200) {
+      // 登录成功
+      this.$message({
+        type: 'success',
+        message: '登录成功!'
+      });
+      // 可以根据需要进行其他操作，例如跳转到主页
       router.push('/UserM'); // 登录成功后跳转到管理员主页
-    }; 
-    const register = () => {
-      router.push('/ARegister'); // 登录成功后跳转到主页
-    };
-    const user = () => {
-      router.push('/'); 
-    };
+    } else {
+      // 登录失败
+      this.$message({
+        type: 'error',
+        message: '登录失败!'
+      });
+    }
+  } catch (error) {
+    // 处理错误
+    console.error('登录失败:', error);
+    this.$message({
+      type: 'error',
+      message: '登录失败!'
+    });
+  }}
+  const register = async () =>{
+    router.push('ARegister')
+  }
+  const user = async () =>{
+    router.push('/')
+  }
   </script>
-    
+ 
+ 
   <style>
     .login-container {
       display: flex;

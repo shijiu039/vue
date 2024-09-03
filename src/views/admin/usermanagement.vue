@@ -1,78 +1,73 @@
 <template>
   <div class="common-layout">
     <el-container>
-      <!-- 侧边栏代码保持不变 -->
       <el-aside width="200px">
         <el-scrollbar>
-        <el-menu default-active="1-1" class="el-menu-vertical-demo">
-          <el-sub-menu index="1">
-            <template #title>
-              <el-icon><message /></el-icon>用户管理
-            </template>
-              <el-menu-item index="1-1"@click="goToUserManagement">用户管理</el-menu-item>
-          </el-sub-menu>
-          <el-sub-menu index="2">
-            <template #title>
-              <el-icon><icon-menu /></el-icon>数据库管理
-            </template>
-              <el-menu-item index="2-1"@click="goToImageManagement">图像管理</el-menu-item>
+          <el-menu default-active="1-1" class="el-menu-vertical-demo">
+            <el-sub-menu index="1">
+              <template #title>
+                <el-icon>
+                  <message />
+                </el-icon>用户管理
+              </template>
+              <el-menu-item index="1-1" @click="goToUserManagement">用户管理</el-menu-item>
+            </el-sub-menu>
+            <el-sub-menu index="2">
+              <template #title>
+                <el-icon>
+                  <icon-menu />
+                </el-icon>数据库管理
+              </template>
+              <el-menu-item index="2-1" @click="goToImageManagement">图像管理</el-menu-item>
               <el-menu-item index="2-2" @click="goToTextManagement">文本管理</el-menu-item>
-            </el-sub-menu>    
-        </el-menu>
-      </el-scrollbar>
+            </el-sub-menu>
+          </el-menu>
+        </el-scrollbar>
       </el-aside>
       <el-container>
         <el-header>
           <!-- 图标和用户数量显示 -->
           <div style="display: flex; align-items: center;">
-            <el-icon style="margin-right: 10px;"><User /></el-icon>
+            <el-icon style="margin-right: 10px;">
+              <User />
+            </el-icon>
             <span>图片数量：{{ userCount }}</span>
           </div>
         </el-header>
         <el-main>
           <!-- 用户列表 -->
-          <el-table
-            :data="userList"
-            style="width: 100%"
-            :default-sort="{ prop: 'date', order: 'ascending' }"
-            @selection-change="handleSelectionChange"
-          >
-            <el-table-column
-              type="selection"
-              width="55">
+          <el-table :data="userList" style="width: 100%" :default-sort="{ prop: 'date', order: 'ascending' }"
+            @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="55">
             </el-table-column>
-            <el-table-column
-              prop="name"
-              label="姓名"
-              sortable
-              width="180">
+            <el-table-column prop="name" label="姓名" sortable width="180">
             </el-table-column>
-            <el-table-column
-              prop="email"
-              label="邮箱"
-              sortable
-              width="240">
+            <el-table-column prop="email" label="邮箱" sortable width="240">
             </el-table-column>
-            <el-table-column
-              label="操作"
-              width="100">
+            <el-table-column label="操作" width="100">
               <template #default="scope">
-                <el-button size="small" type="danger" @click="deleteUser(scope.row)">删除</el-button>
+                <el-popconfirm title="Are you sure to delete this?"@confirm="deleteUser(scope.row)">
+                  <template #reference>
+                    <el-button size="small" type="danger" >Delete</el-button>
+                  </template>
+                </el-popconfirm>
               </template>
             </el-table-column>
           </el-table>
         </el-main>
         <el-footer>
-          <div class="footer-content">
-            <div>
-              <el-icon><Picture /></el-icon>
+          <div >
+              <el-icon>
+                <Picture />
+              </el-icon>
               <span>图片数量：{{ imageCount }}</span>
             </div>
-            <div>
-              <el-icon><Document /></el-icon>
+            <div style="margin-left: 20px;">
+              <el-icon>
+                <Document />
+              </el-icon>
               <span>文本数量：{{ textCount }}</span>
             </div>
-          </div>
         </el-footer>
       </el-container>
     </el-container>
@@ -80,60 +75,61 @@
 </template>
 
 <script>
-import { User, Picture, Document } from '@element-plus/icons-vue';
+  import {
+    User,
+    Picture,
+    Document
+  } from '@element-plus/icons-vue';
 
-export default {
-  components: {
-    User, // 注册用户图标组件
-    Picture, // 注册图片图标组件
-    Document // 注册文档图标组件
-  },
-  data() {
-    return {
-      // 示例用户数据
-      userList: [
-        {
-          name: '张三',
-          email: 'zhangsan@example.com',
-        },
-        {
-          name: '李四',
-          email: 'lisi@example.com',
-        },
-        // 更多用户数据...
-      ],
-      // 用户数量
-      userCount: 100,
-      // 数据库图片数量
-      imageCount: 1000,
-      // 数据库文本数量
-      textCount: 2000
-    };
-  },
-  methods: {
-    // 菜单打开和关闭事件处理
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+  export default {
+    components: {
+      User, // 注册用户图标组件
+      Picture, // 注册图片图标组件
+      Document // 注册文档图标组件
     },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
+    data() {
+      return {
+        // 示例用户数据
+        userList: [{
+            name: '张三',
+            email: 'zhangsan@example.com',
+          },
+          {
+            name: '李四',
+            email: 'lisi@example.com',
+          },
+          // 更多用户数据...
+        ],
+        // 用户数量
+        userCount: 100,
+        // 数据库图片数量
+        imageCount: 1000,
+        // 数据库文本数量
+        textCount: 2000
+      };
     },
-    goToTextManagement() {
-      // 使用 this.$router.push() 方法导航到新的路由
-      this.$router.push('/TextM');
-    },
-    goToUserManagement() {
-      // 使用 this.$router.push() 方法导航到新的路由
-      this.$router.push('/UserM');
-    },
-    goToImageManagement() {
-      // 使用 this.$router.push() 方法导航到新的路由
-      this.$router.push('/ImageM');
-    },
-  }
-};
-
-
+    methods: {
+      // 菜单打开和关闭事件处理
+      handleOpen(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleClose(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      goToTextManagement() {
+        // 使用 this.$router.push() 方法导航到新的路由
+        this.$router.push('/TextM');
+      },
+      goToUserManagement() {
+        // 使用 this.$router.push() 方法导航到新的路由
+        this.$router.push('/UserM');
+      },
+      goToImageManagement() {
+        // 使用 this.$router.push() 方法导航到新的路由
+        this.$router.push('/ImageM');
+      },
+    }
+  };
 </script>
 
 <style>
@@ -142,6 +138,7 @@ body, html {
   margin: 0;
   padding: 0;
   height: 100%;
+  width: 100%;
   font-family: 'Arial', sans-serif;
 }
 
@@ -153,11 +150,12 @@ body, html {
 
 .el-container {
   flex-direction: column;
+  height: 100%; /* 确保容器充满页面 */
 }
 
 /* 侧边栏样式 */
 .el-aside {
-  width: 100px; /* 默认侧边栏宽度 */
+  width: 100%; /* 设置侧边栏宽度为100%，充满页面 */
   background-color: #e7eaed; /* 设置侧边栏背景颜色 */
   color: white; /* 设置文字颜色 */
   transition: width 0.3s; /* 平滑过渡效果 */
@@ -183,6 +181,7 @@ body, html {
   color: #333;
   padding: 20px;
   overflow-y: auto; /* 当内容超出时显示滚动条 */
+  height: 100%; /* 确保主内容充满页面 */
 }
 
 /* 底部样式 */

@@ -27,14 +27,48 @@
   const username = ref('');
   const password = ref('');
   const router = useRouter();
-  
-  const login = () => {
-    // 登录逻辑
-    console.log(usermail.value);
-    console.log(username.value);
-    console.log(password.value);
-    // 假设登录成功
-    router.push('/'); // 登录成功后跳转到主页
+  const register = async () => {
+  // 验证用户输入的电子邮件地址、用户名和密码是否非空
+  if (!usermail.value || !username.value || !password.value) {
+    this.$message({
+      type: 'error',
+      message: '请填写所有必填字段'
+    });
+    return;
+  }
+
+  // 发送POST请求到注册接口
+  try {
+    const response = await this.$http.post(`/administrator/regi/${username.value}/${usermail.value}/{key}`, {
+      // 假设 {key} 是一个从验证码发送请求中获取的动态值
+      key: '{key}', // 这里需要从验证码发送请求中获取实际的key值
+      password: password.value
+    });
+
+    // 处理响应
+    if (response.status === 200) {
+      // 注册成功
+      this.$message({
+        type: 'success',
+        message: '注册成功!'
+      });
+      // 可以根据需要进行其他操作，例如跳转到主页
+      router.push('/ALogin'); // 注册成功后跳转到登录页面
+    } else {
+      // 注册失败
+      this.$message({
+        type: 'error',
+        message: '注册失败!'
+      });
+    }
+  } catch (error) {
+    // 处理错误
+    console.error('注册失败:', error);
+    this.$message({
+      type: 'error',
+      message: '注册失败!'
+    });
+  }
   };
   </script>
   
