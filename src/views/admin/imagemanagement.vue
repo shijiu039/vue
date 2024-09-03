@@ -54,7 +54,7 @@
             </el-table-column>
             <el-table-column label="操作" width="100">
               <template #default="scope">
-                <el-button size="small" type="danger" @click="deleteImage(scope.row)">删除</el-button>
+                <el-button size="small" type="danger"style="height: 50%;" @click="deleteImage(scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -62,8 +62,8 @@
         <el-footer>
           <el-upload action="/administrator/image-upload" :on-preview="handlePreview" :on-remove="handleRemove"
             :before-remove="beforeRemove" multiple :limit="3" :on-exceed="handleExceed" :file-list="fileList">
-            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-            <el-button style="margin-left: 10px;" size="small" type="success" @click="ImageUpload">上传到服务器</el-button>
+            <el-button slot="trigger"  type="primary">选取文件</el-button>
+            <el-button style="margin-left: 10px;height: 100%;"  type="success" @click="ImageUpload">上传到服务器</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
         </el-footer>
@@ -75,7 +75,7 @@
 <script>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { User, Picture, Document } from '@element-plus/icons-vue';
+import { User, Picture, Document                                                                                                                                                                                                               } from '@element-plus/icons-vue';
 
 export default {
   components: {
@@ -105,14 +105,14 @@ export default {
     // 路由器实例
     const router = useRouter();
 
-    // // 定义方法
-    // const handleOpen = (key, keyPath) => {
-    //   console.log(key, keyPath);
-    // };
+    // 定义方法
+    const handleOpen = (key, keyPath) => {
+      console.log(key, keyPath);
+    };
 
-    // const handleClose = (key, keyPath) => {
-    //   console.log(key, keyPath);
-    // };
+    const handleClose = (key, keyPath) => {
+      console.log(key, keyPath);
+    };
 
     const goToTextManagement = () => {
       router.push('/TextM');

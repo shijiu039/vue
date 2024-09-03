@@ -97,13 +97,13 @@ const textCount = ref(2000);
 
 const router = useRouter();
 
-// const handleOpen = (key, keyPath) => {
-//   console.log(key, keyPath);
-// };
+const handleOpen = (key, keyPath) => {
+  console.log(key, keyPath);
+};
 
-// const handleClose = (key, keyPath) => {
-//   console.log(key, keyPath);
-// };
+const handleClose = (key, keyPath) => {
+  console.log(key, keyPath);
+};
 
 const goToTextManagement = () => {
   router.push('/TextM');

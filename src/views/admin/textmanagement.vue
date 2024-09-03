@@ -97,19 +97,17 @@
     // 更多文本数据...
   ]);
   const textinput = ref('');
-  const imageCount = ref(1000);
-  const textCount = ref(2000);
   const searchText = ref(''); // 搜索文本内容
 
   const router = useRouter();
 
-  // const handleOpen = (key, keyPath) => {
-  //   console.log(key, keyPath);
-  // };
+  const handleOpen = (key, keyPath) => {
+    console.log(key, keyPath);
+  };
 
-  // const handleClose = (key, keyPath) => {
-  //   console.log(key, keyPath);
-  // };
+  const handleClose = (key, keyPath) => {
+    console.log(key, keyPath);
+  };
 
   const goToTextManagement = () => {
     router.push('/TextM');
