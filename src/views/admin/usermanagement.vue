@@ -74,6 +74,7 @@
   </div>
 </template>
 
+<<<<<<< HEAD
 <script>
   import {
     User,
@@ -130,6 +131,83 @@
       },
     }
   };
+=======
+<script setup>
+import { User, Picture, Document } from '@element-plus/icons-vue';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const userList = ref([
+  {
+    name: '张三',
+    email: 'zhangsan@example.com',
+  },
+  {
+    name: '李四',
+    email: 'lisi@example.com',
+  },
+  // 更多用户数据...
+]);
+
+const userCount = ref(100);
+const imageCount = ref(1000);
+const textCount = ref(2000);
+
+const router = useRouter();
+
+const handleOpen = (key, keyPath) => {
+  console.log(key, keyPath);
+};
+
+const handleClose = (key, keyPath) => {
+  console.log(key, keyPath);
+};
+
+const goToTextManagement = () => {
+  router.push('/TextM');
+};
+
+const goToUserManagement = () => {
+  router.push('/UserM');
+};
+
+const goToImageManagement = () => {
+  router.push('/ImageM');
+};
+
+const deleteUser = async (row) => {
+  try {
+    // 发送DELETE请求到后端API来删除用户
+    const response = await this.$http.delete(`/administrator/user_dele/${row.id}`);
+    // 处理响应
+    if (response.status === 200) {
+      // 假设后端返回了删除成功的状态
+      this.$message({
+        type: 'success',
+        message: '用户删除成功!'
+      });
+      // 更新用户列表，移除已删除的用户
+      const index = userList.value.findIndex(user => user.id === row.id);
+      if (index !== -1) {
+        userList.value.splice(index, 1);
+      }
+    } else {
+      // 处理其他状态码
+      this.$message({
+        type: 'error',
+        message: '用户删除失败!'
+      });
+    }
+  } catch (error) {
+    // 处理网络错误或API错误
+    console.error('用户删除失败:', error);
+    this.$message({
+      type: 'error',
+      message: '用户删除失败!'
+    });
+  }
+};
+>>>>>>> 63b832020fef8db6ded9ab7a2c1021d39fa523cb
 </script>
 
 <style>

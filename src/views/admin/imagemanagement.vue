@@ -73,6 +73,7 @@
 </template>
 
 <script>
+<<<<<<< HEAD
   import {
     User,
     Picture,
@@ -154,15 +155,117 @@
         } catch (error) {
           // 处理网络错误或API错误
           console.error('删除图片失败:', error);
+=======
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { User, Picture, Document } from '@element-plus/icons-vue';
+
+export default {
+  components: {
+    User, // 注册用户图标组件
+    Picture, // 注册图片图标组件
+    Document // 注册文档图标组件
+  },
+  setup() {
+    // 使用ref定义响应式数据
+    const userList = ref([
+      {
+        name: '张三',
+        email: 'zhangsan@example.com',
+      },
+      {
+        name: '李四',
+        email: 'lisi@example.com',
+      },
+      // 更多用户数据...
+    ]);
+
+    // 使用ref定义响应式数据
+    const userCount = ref(100);
+    const imageCount = ref(1000);
+    const textCount = ref(2000);
+
+    // 路由器实例
+    const router = useRouter();
+
+    // 定义方法
+    const handleOpen = (key, keyPath) => {
+      console.log(key, keyPath);
+    };
+
+    const handleClose = (key, keyPath) => {
+      console.log(key, keyPath);
+    };
+
+    const goToTextManagement = () => {
+      router.push('/TextM');
+    };
+
+    const goToUserManagement = () => {
+      router.push('/UserM');
+    };
+
+    const goToImageManagement = () => {
+      router.push('/ImageM');
+    };
+
+    const deleteImage = async (row) => {
+      console.log('删除图片:', row.id);
+      try {
+        // 调用后端API来删除图片
+        const response = await this.$http.delete(`/api/images/${row.id}`);
+        // 处理响应，例如更新图片列表
+        if (response.status === 200) {
+          // 假设后端返回了删除成功的状态
+          this.$message({
+            type: 'success',
+            message: '图片删除成功!'
+          });
+          // 从前端列表中移除已删除的图片
+          const index = this.imageList.findIndex(image => image.id === row.id);
+          if (index !== -1) {
+            this.imageList.splice(index, 1);
+          }
+        } else {
+          // 处理其他状态码
+>>>>>>> 63b832020fef8db6ded9ab7a2c1021d39fa523cb
           this.$message({
             type: 'error',
             message: '图片删除失败!'
           });
         }
+<<<<<<< HEAD
       },
     }
 
   };
+=======
+      } catch (error) {
+        // 处理网络错误或API错误
+        console.error('删除图片失败:', error);
+        this.$message({
+          type: 'error',
+          message: '图片删除失败!'
+        });
+      }
+    };
+
+    // 暴露给模板的数据和方法
+    return {
+      userList,
+      userCount,
+      imageCount,
+      textCount,
+      handleOpen,
+      handleClose,
+      goToTextManagement,
+      goToUserManagement,
+      goToImageManagement,
+      deleteImage,
+    };
+  }
+};
+>>>>>>> 63b832020fef8db6ded9ab7a2c1021d39fa523cb
 </script>
 
 <style>
