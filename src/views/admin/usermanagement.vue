@@ -8,6 +8,7 @@
               <template #title>
                 <el-icon>
                   <message />
+                  <el-icon><User /></el-icon>
                 </el-icon>用户管理
               </template>
               <el-menu-item index="1-1" @click="goToUserManagement">用户管理</el-menu-item>
@@ -16,6 +17,7 @@
               <template #title>
                 <el-icon>
                   <icon-menu />
+                  <el-icon><Edit /></el-icon>
                 </el-icon>数据库管理
               </template>
               <el-menu-item index="2-1" @click="goToImageManagement">图像管理</el-menu-item>
@@ -23,15 +25,14 @@
             </el-sub-menu>
           </el-menu>
         </el-scrollbar>
+        <el-icon size=""><User /></el-icon>
       </el-aside>
       <el-container>
         <el-header>
-          <!-- 图标和用户数量显示 -->
           <div style="display: flex; align-items: center;">
-            <el-icon style="margin-right: 10px;">
-              <User />
-            </el-icon>
-            <span>图片数量：{{ userCount }}</span>
+            <el-input placeholder="请输入搜索内容" v-model="searchText" style="width: 200px; margin-right: 10px;">
+            </el-input>
+            <el-button type="primary" @click="searchUsers">搜索</el-button>
           </div>
         </el-header>
         <el-main>
@@ -56,18 +57,12 @@
           </el-table>
         </el-main>
         <el-footer>
-          <div >
-              <el-icon>
-                <Picture />
-              </el-icon>
-              <span>图片数量：{{ imageCount }}</span>
-            </div>
-            <div style="margin-left: 20px;">
-              <el-icon>
-                <Document />
-              </el-icon>
-              <span>文本数量：{{ textCount }}</span>
-            </div>
+          <div style="display: flex; align-items: center;">
+            <el-icon style="margin-right: 10px;">
+              <User />
+            </el-icon>
+            <span>用户数量：{{ userCount }}</span>
+          </div>
         </el-footer>
       </el-container>
     </el-container>
@@ -75,7 +70,7 @@
 </template>
 
 <script setup>
-import { User, Picture, Document } from '@element-plus/icons-vue';
+import { User, Picture, Document,Edit, } from '@element-plus/icons-vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -117,10 +112,26 @@ const goToImageManagement = () => {
   router.push('/ImageM');
 };
 
+// const response = await fetch('http://192.168.188.92:5000/user/register', {
+//       method: 'POST', // 指定请求方法
+//       headers: {
+//         'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
+//       },
+//       body: body // 将表单数据作为请求体
+//     });
 const deleteUser = async (row) => {
   try {
-    // 发送DELETE请求到后端API来删除用户
-    const response = await this.$http.post(`/administrator/user_dele/${row.id}`);
+    // 构造请求体
+    const body = new URLSearchParams({
+      'user_id': row.id,
+    }).toString();
+    // 发送请求到后端API来删除用户
+    const response = await fetch(`http://192.168.188.92:5000/administrator/user_dele`,{
+      method: 'POST', // 指定请求方法
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
+      },
+    });
     // 处理响应
     if (response.status === 200) {
       // 假设后端返回了删除成功的状态
@@ -129,10 +140,6 @@ const deleteUser = async (row) => {
         message: '用户删除成功!'
       });
       // 更新用户列表，移除已删除的用户
-      const index = userList.value.findIndex(user => user.id === row.id);
-      if (index !== -1) {
-        userList.value.splice(index, 1);
-      }
     } else {
       // 处理其他状态码
       this.$message({
@@ -169,7 +176,7 @@ body, html {
 
 .el-container {
   flex-direction: column;
-  height: 100%; /* 确保容器充满页面 */
+  height:1000px; /* 确保容器充满页面 */
 }
 
 /* 侧边栏样式 */
@@ -229,7 +236,7 @@ body, html {
 /* 激活状态样式 */
 .el-menu-vertical-demo .el-menu-item.is-active {
   color: #409EFF; /* 设置激活状态下的文字颜色 */
-  background-color: #263445 !important; /* 设置激活状态下的背景颜色 */
+  background-color: #063876 !important; /* 设置激活状态下的背景颜色 */
 }
 
 /* 响应式设计 */

@@ -1,13 +1,14 @@
 <template>
   <div class="common-layout">
-    <el-container>
+    <el-container style="height: 100%;">
       <el-aside width="200px">
         <el-scrollbar>
-          <el-menu default-active="1-1" class="el-menu-vertical-demo">
+          <el-menu default-active="2-2" class="el-menu-vertical-demo">
             <el-sub-menu index="1">
               <template #title>
                 <el-icon>
                   <message />
+                  <el-icon><User /></el-icon>
                 </el-icon>用户管理
               </template>
               <el-menu-item index="1-1" @click="goToUserManagement">用户管理</el-menu-item>
@@ -16,6 +17,7 @@
               <template #title>
                 <el-icon>
                   <icon-menu />
+                  <el-icon><Edit /></el-icon>
                 </el-icon>数据库管理
               </template>
               <el-menu-item index="2-1" @click="goToImageManagement">图像管理</el-menu-item>
@@ -45,9 +47,10 @@
             </el-table-column>
             <el-table-column prop="info" label="文本信息" sortable width="180">
             </el-table-column>
-            <el-table-column prop="id" label="ID" sortable width="180">
+            <el-table-column prop="id" label="ID" sortable width="180">            
             </el-table-column>
-            <el-table-column prop="uploadTime" label="上传时间" sortable width="240">
+            
+            <el-table-column prop="uploadTime" label="上传时间" sortable width="400">
             </el-table-column>
             <el-table-column label="操作" width="100">
               <template #default="scope">
@@ -68,7 +71,7 @@
                 </el-icon>
               </template>
             </el-input>
-            <el-button size="small" type="primary" style="width :200;margin-right: 700px;margin-left: 100px;height: 50%;" @click="uploadTexts ">上传到服务器</el-button>
+            <el-button size="small" type="primary" style="width :200;margin-right: 63%;margin-left: 30px;height: 50%;" @click="uploadTexts ">上传到服务器</el-button>
         </el-footer>
       </el-container>
     </el-container>
@@ -81,6 +84,7 @@
     Picture,
     Document,
     Search,
+    Edit,
   } from '@element-plus/icons-vue';
   import {
     ref
@@ -94,6 +98,7 @@
       id: "1",
       uploadTime: 'dsads'
     },
+    
     // 更多文本数据...
   ]);
   const textinput = ref('');
@@ -123,15 +128,13 @@
 
   const searchTexts = () => {
     console.log('搜索文本:', searchText.value);
-    // 这里可以添加搜索文本的API调用
   };
 
   const Textdelete = async (row) => {
     console.log('删除文本:', row.id);
     try {
       // 调用后端API来删除文本
-      // 注意：这里假设后端API需要接收一个包含ID的对象
-      const response = await this.$http.post(`/adminstrator/user_dele`, {
+      const response = await this.$http.post(`http://192.168.188.92:5000/adminstrator/text_dele`, {
         id: row.id
       });
       // 处理响应，例如更新文本列表
@@ -163,6 +166,49 @@
     }
     const uploadTexts = async (textinput) => {
 
+    }
+  };
+  const uploadTexts = async (textinput) => {
+    console.log('上传文本:', textinput);
+    try {
+       // 构造请求体
+    const body = new URLSearchParams({
+      'text_info': textinput.value,
+    }).toString();
+
+      const response = await fetch(`http://192.168.188.92:5000/adminstrator/text_dele`, {
+      method: 'POST', // 指定请求方法
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
+      },
+      body: body
+      });
+      // 处理响应
+      if (response.status === 200) {
+        // 假设后端返回了上传成功的状态
+        this.$message({
+          type: 'success',
+          message: '文本删除成功!'
+        });
+        // 从前端列表中增加文本
+        const index = textList.value.findIndex(text => text.id === row.id);
+        if (index !== -1) {
+          textList.value.splice(index, 1);
+        }
+      } else {
+        // 处理其他状态码
+        this.$message({
+          type: 'error',
+          message: '文本上传失败!'
+        });
+      }
+    } catch (error) {
+      // 处理网络错误或API错误
+      console.error('上传文本失败:', error);
+      this.$message({
+        type: 'error',
+        message: '文本上传失败!'
+      });
     }
   };
 </script>
