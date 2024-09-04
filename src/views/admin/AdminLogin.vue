@@ -1,7 +1,7 @@
 <template>
     <div class="fixed-layout">
       <div class="login-container">
-        <img src="./public/latest.png" alt="Image"></img>
+        <img src="/public/Logo.png" style="width:25%;height: auto;" alt="Image"></img>
           <h1>管理员登录</h1>
           <div class="input-group">
           <label for="administrator_email">邮箱:</label>
@@ -20,16 +20,19 @@
     </div>
   </template>
     
-  <script setup>
-    import { ref } from 'vue';
-    import { useRouter } from 'vue-router';
-    import axios from 'axios';
+<script setup>
+  import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
+  import axios from 'axios';
+  import { useAuthStore } from '@/stores/auth'; // 引入 Pinia store
+
+  const authStore = useAuthStore();
+
+  const administrator_email = ref('');
+  const password = ref('');
+  const router = useRouter();
     
-    const administrator_email = ref('');
-    const password = ref('');
-    const router = useRouter();
-    
-    const login = async () => {
+  const login = async () => {
   // 登录逻辑
   console.log(administrator_email.value);
   console.log(password.value);
@@ -65,6 +68,7 @@
     if (data.code === 0) {
       console.log('Login successful:', data.message);
       alert('登录成功');
+      authStore.login(data.user); // 更新登录状态
       router.push('/UserM'); // 登录成功后跳转到管理员主页
     } else {
       console.log('Login failed:', data.message);
