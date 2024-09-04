@@ -1,11 +1,11 @@
 <template>
   <div class="fixed-layout">
     <div class="login-container">
-      <img src="./public/Logo.png" alt="Description" />
-      <h1>登录</h1>
+        <img src="/public/Logo.png" alt="Description" style="width: 25%; height: auto;" />
+        <h1>登录</h1>
       <div class="input-group">
-        <label for="email">邮箱:</label>
-        <el-input v-model="email" style="width: 340px" id="email" placeholder="请输入邮箱"></el-input>
+        <label for="user_email">邮箱:</label>
+        <el-input v-model="user_email" style="width: 340px" id="user_email" placeholder="请输入邮箱"></el-input>
       </div>
       <div class="input-group">
         <label for="v-code">验证码:</label>
@@ -28,18 +28,23 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
+import { useAuthStore } from '@/stores/auth'; // 引入 Pinia store
 
-const email = ref('1669929153@qq.com');
+const authStore = useAuthStore();
+
+const user_email = ref('1669929153@qq.com');
 const v_code = ref('');
 const router = useRouter();
 
 const login = async () => {
   // 登录逻辑
-  console.log(email.value);
+  console.log(user_email.value);
   console.log(v_code.value);
+// 下面的跳转代码开发管理员页面时测试用，全写完之后记得删
 
-  if (email.value === '') { // 确保使用正确的变量
+  //router.push('/home'); // 登录成功后跳转到主页}
+
+  if (user_email.value === '') { // 确保使用正确的变量
     alert('请输入邮箱地址');
     return;
   }
@@ -47,7 +52,7 @@ const login = async () => {
   try {
     // 构造请求体
     const body = new URLSearchParams({
-      'email': email.value,
+      'user_email': user_email.value,
       'v_code': v_code.value // 确保使用正确的变量
     }).toString();
 
@@ -69,6 +74,7 @@ const login = async () => {
     if (data.code === 0) {
       console.log('Login successful:', data.message);
       alert(data.message);
+      authStore.login(data.user); // 更新登录状态
       router.push('/home'); // 登录成功后跳转到主页
     } else {
       console.log('Login failed:', data.message);
@@ -93,7 +99,7 @@ const admin = () =>
 };
 // 获取验证码的逻辑
 const getVerificationCode = async () => {
-  if (email.value === '') {
+  if (user_email.value === '') {
     alert('请输入邮箱地址');
     return;
   }
@@ -101,7 +107,7 @@ const getVerificationCode = async () => {
   try {
     // 创建URLSearchParams对象来构建请求体
 
-    const body = new URLSearchParams({ 'email': email.value }).toString();
+    const body = new URLSearchParams({ 'user_email': user_email.value }).toString();
 
     const response = await fetch('http://192.168.188.92:5000/user/verify', {
       method: 'POST', // 指定请求方法
@@ -124,6 +130,11 @@ const getVerificationCode = async () => {
     console.error('Verification code request failed:', error);
   }
 };
+
+
+
+
+
 </script>
 
 <style scoped>

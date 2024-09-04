@@ -1,6 +1,6 @@
 <template>
     <div class="login-container">
-      <img src="./Logo.png" alt="Description"></img>
+      <img src="/Logo.png" style="width:25%;height: auto;"  alt="Description"></img>
       <h1>管理员注册</h1>
       
       <div class="input-group">
@@ -162,7 +162,19 @@ const getVerificationCode = async () => {
   width: 80px; /* 给标签一个固定宽度，这样它们会保持一致 */
   text-align: right; /* 文本右对齐，以便于阅读 */
 }
+.get-code-btn {
+  margin-left: 10px;
+  padding: 5px; /* 调整为合适的大小 */
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: #409EFF; /* Element UI 主题色 */
+  text-decoration: underline;
+}
 
+.get-code-btn:hover {
+  color: #66b1ff; /* 鼠标悬停时的颜色 */
+}
 /* 如果需要，可以添加其他样式来进一步美化登录表单 */
 </style>
 
