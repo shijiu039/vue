@@ -32,7 +32,7 @@
           <div style="display: flex; align-items: center;">
             <el-input placeholder="请输入搜索内容" v-model="searchText" style="width: 200px; margin-right: 10px;">
             </el-input>
-            <el-button type="primary" @click="searchUsers">搜索</el-button>
+            <el-button type="primary" @click="getUser">搜索</el-button>
           </div>
         </el-header>
         <el-main>
@@ -41,7 +41,9 @@
             @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55">
             </el-table-column>
-            <el-table-column prop="name" label="姓名" sortable width="180">
+            <el-table-column prop="user_name" label="姓名" sortable width="180">
+            </el-table-column>
+            <el-table-column prop="user_id" label="id" sortable width="180">
             </el-table-column>
             <el-table-column prop="email" label="邮箱" sortable width="240">
             </el-table-column>
@@ -73,22 +75,18 @@
 import { User, Picture, Document,Edit, } from '@element-plus/icons-vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { onMounted } from 'vue';
 
+
+// 使用onMounted钩子，在组件挂载后调用
+onMounted(() => {
+  getUser();
+});
 const userList = ref([
-  {
-    name: '张三',
-    email: 'zhangsan@example.com',
-  },
-  {
-    name: '李四',
-    email: 'lisi@example.com',
-  },
-  // 更多用户数据...
+  
 ]);
 
 const userCount = ref(100);
-const imageCount = ref(1000);
-const textCount = ref(2000);
 
 const router = useRouter();
 
@@ -111,7 +109,27 @@ const goToUserManagement = () => {
 const goToImageManagement = () => {
   router.push('/ImageM');
 };
-
+// 定义你想要调用的函数
+const getUser = async () => {
+  try {
+    const response = await fetch('http://192.168.188.92:5000/administrator/userlist', {
+      method: 'POST',
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json(); // 解析返回的JSON数据
+    console.log('list get successfully:', data);
+    // 如果需要根据后端响应做进一步处理
+    if (data.code === 0) {
+      userList.value = data.data; // 更新userList
+    } else {
+      console.error('Failed to retrieve user list:', data);
+    }
+  } catch (error) {
+    console.error('Error fetching user list:', error);
+  }
+};
 // const response = await fetch('http://192.168.188.92:5000/user/register', {
 //       method: 'POST', // 指定请求方法
 //       headers: {
