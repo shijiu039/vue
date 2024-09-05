@@ -10,6 +10,7 @@ import ImageM from '../views/admin/imagemanagement.vue';
 import TextM from '../views/admin/textmanagement.vue';
 import UserM from '../views/admin/usermanagement.vue';
 import { useAuthStore } from '../stores/auth'; // 引入 Pinia store
+import { ref } from 'vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -69,16 +70,23 @@ const router = createRouter({
 
 // 添加全局前置守卫
 router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore();
+  //const authStore = useAuthStore();
+  const Userinfo = localStorage.getItem('userInfo');
+  const data= ref<any>(null);
+  if (Userinfo) {
+    data.value = JSON.parse(Userinfo);
+  }
+  const token = data.value.data.user_name;
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!authStore.isLoggedIn) {
-      next('/'); // 未登录则重定向到登录页面
+    if (to.name !== 'login' && !token) {
+      next('/');
     } else {
-      next(); // 已登录则继续
+      next();
     }
   } else {
     next(); // 不需要认证的页面直接放行
   }
 });
+
 
 export default router;
