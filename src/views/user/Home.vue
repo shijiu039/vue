@@ -202,8 +202,6 @@ const uploadImage = async (event: Event) => {
     const logout = () => {
       // 清除用户的认证状态或其他相关数据
       localStorage.removeItem('token'); // 示例：删除本地存储的 token
-      localStorage.removeItem('user');  // 示例：删除本地存储的用户信息
-      
       // 跳转到登录页面
       router.push('/');
     };

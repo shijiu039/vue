@@ -71,11 +71,12 @@ const login = async () => {
 
     const data = await response.json(); // 解析返回的JSON数据
     localStorage.setItem('userInfo', JSON.stringify(data));
-
+    
     //下面代码测试用
     const storedUserInfo = localStorage.getItem('userInfo');
       if (storedUserInfo) {
         data.value = JSON.parse(storedUserInfo);
+        data.value.data.user_name=localStorage.setItem('token', JSON.stringify());
       }
       console.log(data.value.data);
 
