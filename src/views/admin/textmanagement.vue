@@ -38,7 +38,9 @@
               <Document />
             </el-icon>
             <span>当前文本数量：{{ textList.length }}</span>
+            
           </div>
+          
         </el-header>
         <el-main>
           <el-table :data="textList" style="width: 100%" :default-sort="{ prop: 'uploadTime', order: 'ascending' }"
@@ -92,15 +94,40 @@
   import {
     useRouter
   } from 'vue-router';
+  import { onMounted } from 'vue';
 
+
+// 使用onMounted钩子，在组件挂载后调用
+onMounted(() => {
+  getTexts();
+});
   const textList = ref([{
       info: 'jgjng',
       id: "1",
       uploadTime: 'dsads'
     },
-    
     // 更多文本数据...
   ]);
+  const getTexts = async () => {
+  try {
+    const response = await fetch('http://192.168.188.92:5000/administrator/textlist', {
+      method: 'POST',
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json(); // 解析返回的JSON数据
+    console.log('list get successfully:', data);
+    // 如果需要根据后端响应做进一步处理
+    if (data.code === 0) {
+      textList.value = data.data; // 更新userList
+    } else {
+      console.error('Failed to retrieve text list:', data);
+    }
+  } catch (error) {
+    console.error('Error fetching text list:', error);
+  }
+};
   const textinput = ref('');
   const searchText = ref(''); // 搜索文本内容
 

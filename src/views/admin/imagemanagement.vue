@@ -52,7 +52,7 @@
             </el-table-column>
             <el-table-column prop="info" label="图片信息" sortable width="180">
             </el-table-column>
-            <el-table-column prop="uploadTime" label="上传时间" sortable width="240">
+            <el-table-column prop="uploadTime" label="上传时间" sortable width="400">
             </el-table-column>
             <el-table-column label="操作" width="100">
               <template #default="scope">
@@ -83,24 +83,18 @@ import {
   Search,
   Edit
 } from '@element-plus/icons-vue';
+import { onMounted } from 'vue';
 
-// 使用ref定义响应式数据
-const userList = ref([
-  {
-    name: '张三',
-    email: 'zhangsan@example.com',
-  },
-  {
-    name: '李四',
-    email: 'lisi@example.com',
-  },
-  // 更多用户数据...
+
+// 使用onMounted钩子，在组件挂载后调用
+onMounted(() => {
+  getImage();
+});
+const imageList = ref([
+  
 ]);
-
-const userCount = ref(100);
+// 使用ref定义响应式数据
 const imageCount = ref(1000);
-const textCount = ref(2000);
-
 // 路由器实例
 const router = useRouter();
 
@@ -158,7 +152,26 @@ const deleteImage = async (row) => {
     });
   }
 };
-
+const getImage = async () => {
+  try {
+    const response = await fetch('http://192.168.188.92:5000/administrator/imagelist', {
+      method: 'POST',
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json(); // 解析返回的JSON数据
+    console.log('list get successfully:', data);
+    // 如果需要根据后端响应做进一步处理
+    if (data.code === 0) {
+      imageList.value = data.data; // 更新userList
+    } else {
+      console.error('Failed to retrieve image list:', data);
+    }
+  } catch (error) {
+    console.error('Error fetching image list:', error);
+  }
+};
 // 暴露给模板的数据和方法
 
 </script>
