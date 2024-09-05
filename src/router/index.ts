@@ -71,12 +71,13 @@ const router = createRouter({
 // 添加全局前置守卫
 router.beforeEach((to, from, next) => {
   //const authStore = useAuthStore();
-  const Userinfo = localStorage.getItem('userInfo');
-  const data= ref<any>(null);
-  if (Userinfo) {
-    data.value = JSON.parse(Userinfo);
-  }
-  const token = data.value.data.user_name;
+  // const Userinfo = localStorage.getItem('userInfo');
+  // const data= ref<any>(null);
+  // if (Userinfo) {
+  //   data.value = JSON.parse(Userinfo);
+  // }
+  // const token = data.value.data.user_name;
+  const token = localStorage.getItem('token');
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (to.name !== 'login' && !token) {
       next('/');
