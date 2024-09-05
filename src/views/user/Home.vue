@@ -32,11 +32,14 @@
     </nav>
     <main class="main-container">
       <div class="chat-history" ref="chatHistory">
+        
         <div v-for="(message, index) in currentSession.messages" :key="index" :class="['message', message.isUser ? 'user-message' : 'bot-message']">
-          <img v-if="message.isImage" :src="message.text" alt="Uploaded Image" />
-          <span v-else>{{ message.text }}</span>
+          <div class="vfor" ref="achatHistory"></div>
+            <img v-if="message.imageUrl" :src="message.imageUrl" alt="Uploaded Image" />
+            <p v-if="message.score">{{ message.score }}</p>
+            <span v-else>{{ message.text }}</span>
+          </div>
         </div>
-      </div>
       <div class="input-section">
         <textarea v-model="newMessage" placeholder="Type your message here..." @keyup.enter="sendMessage"></textarea>
         <button @click="sendMessage">Send</button>
@@ -44,7 +47,9 @@
         <input type="file" id="file-input" accept="image/*" @change="uploadImage" style="display: none;" />
       </div>
     </main>
+
   </div>
+
 </template>
 
 <script lang="ts">
@@ -82,18 +87,67 @@ export default defineComponent({
       selectSession(sessions.value.length - 1);
     };
 
-    const sendMessage = () => {
-      if (newMessage.value.trim()) {
-        currentSession.value.messages.push({ text: newMessage.value, isUser: true });
-        newMessage.value = ''; // Clear the input field
+
+  const sendMessage = async () => {
+  if (newMessage.value.trim()) {
+    currentSession.value.messages.push({ text: newMessage.value, isUser: true });
+
+    // 构造请求体
+    const body = new URLSearchParams({
+      'text': newMessage.value
+    }).toString();
+
+    try {
+      // 发送 POST 请求
+      const response = await fetch('http://192.168.188.92:5000/user/texttoimage', {
+        method: 'POST', // 指定请求方法
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
+        },
+        body: body // 将表单数据作为请求体
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json(); // 解析返回的JSON数据
+      console.log('Message sent successfully:', data);
+
+      // 如果需要根据后端响应做进一步处理
+      if (data.code === 0) {
+        // 确保 data.data 是一个数组
+        if (Array.isArray(data.data)) {
+          data.data.forEach((item: any[]) => {
+            const  imageUrl = item[0].toString();
+            const score = item[1];
+            const messageItem = {
+              imageUrl: imageUrl,
+              text: `相关度分数: ${score.toFixed(4)}`, // 显示相关度分数
+              isUser: false
+            };
+            currentSession.value.messages.push(messageItem);
+          });
+        }
+
+        // 模拟机器人响应
         setTimeout(() => {
-          // Simulate a bot response after a delay
           currentSession.value.messages.push({ text: 'I am here to help. What do you need?', isUser: false });
         }, 1000);
+      } else {
+        console.log('Response error:', data.message);
+        alert(data.message);
       }
-    };
+    } catch (error) {
+      console.error('Failed to send message:', error);
+      alert('发送消息失败，请稍后重试');
+    }
 
-    const uploadImage = (event: Event) => {
+    newMessage.value = ''; // 清空输入字段
+  }
+};
+
+const uploadImage = async (event: Event) => {
       const fileInput = event.target as HTMLInputElement;
       if (fileInput.files && fileInput.files.length > 0) {
         const file = fileInput.files[0];
@@ -101,12 +155,36 @@ export default defineComponent({
         reader.onload = (e) => {
           const imageUrl = e.target?.result as string;
           currentSession.value.messages.push({ text: imageUrl, isImage: true, isUser: true });
-          setTimeout(() => {
-            // Simulate a system response after uploading an image
             currentSession.value.messages.push({ text: 'Thanks for the image. Let me take a look...', isUser: false });
-          }, 1000);
           scrollToBottom();
         };
+        const formData = new FormData();
+      formData.append('image', file); // 将文件添加到 FormData 对象中
+      try {
+    const response = await fetch('http://192.168.188.92:5000/user/imagetotext', {
+      method: 'POST',
+      body: formData // 直接使用 FormData 对象作为请求体
+    });
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json(); // 解析返回的JSON数据
+      console.log('Image upload successfully:', data);
+      // 如果需要根据后端响应做进一步处理
+      if (data.code === 0) {
+        // 确保 data.data 是一个数组
+        if (Array.isArray(data.data)) {
+          data.data.forEach((item: any[]) => {
+            const textinfo = item[0].toString();
+          const score = item[1];
+          const messageItem = {
+            text: `${textinfo} 相关度分数:${score.toFixed(4)}`,
+            isUser: false
+            };
+            currentSession.value.messages.push(messageItem);
+          });
+        }
+    }}catch(error){}
         reader.readAsDataURL(file);
       }
     };
@@ -176,7 +254,9 @@ export default defineComponent({
   justify-content: space-between;
   z-index: 1000;
 }
-
+.vfor{
+  flex-direction: column;
+}
 .header-title {
   padding-left: 20px;
   
