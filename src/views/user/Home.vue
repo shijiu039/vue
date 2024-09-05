@@ -58,7 +58,12 @@ import { defineComponent, ref, onMounted, nextTick, watchEffect } from 'vue';
 
 export default defineComponent({
   setup() {
-    const username = 'John Doe'; // Replace with actual username logic
+    const userInfo = ref<any>(null);
+    const storedUserInfo = localStorage.getItem('userInfo');
+      if (storedUserInfo) {
+        userInfo.value = JSON.parse(storedUserInfo);
+      }
+    const username = userInfo.value.data.user_name; // Replace with actual username logic
     const newMessage = ref('');
     const sessions = ref([
       {
@@ -176,8 +181,8 @@ const uploadImage = async (event: Event) => {
         if (Array.isArray(data.data)) {
           data.data.forEach((item: any[]) => {
             const textinfo = item[0].toString();
-          const score = item[1];
-          const messageItem = {
+            const score = item[1];
+            const messageItem = {
             text: `${textinfo} 相关度分数:${score.toFixed(4)}`,
             isUser: false
             };
@@ -204,6 +209,11 @@ const uploadImage = async (event: Event) => {
     };
     
     onMounted(() => {
+      const storedUserInfo = localStorage.getItem('userInfo');
+      if (storedUserInfo) {
+        userInfo.value = JSON.parse(storedUserInfo);
+      }
+      console.log(userInfo.value.data.user_name);
       scrollToBottom();
     });
 
@@ -268,7 +278,7 @@ const uploadImage = async (event: Event) => {
 }
 
 .user-link {
-  color: white;
+  color: rgb(255, 255, 255);
   text-decoration: none;
   cursor: pointer;
 }
@@ -362,7 +372,12 @@ button {
   color: white;
   cursor: pointer;
 }
-
+.el-dropdown-link{
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  cursor: pointer;
+  size:150px;
+}
 .upload-button {
   padding: 5px 10px;
   border: none;

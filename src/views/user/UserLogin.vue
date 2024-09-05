@@ -40,9 +40,9 @@ const login = async () => {
   // 登录逻辑
   console.log(user_email.value);
   console.log(v_code.value);
-// 下面的跳转代码开发管理员页面时测试用，全写完之后记得删
+//下面的跳转代码开发管理员页面时测试用，全写完之后记得删
 
-  //router.push('/home'); // 登录成功后跳转到主页}
+  // router.push('/home'); // 登录成功后跳转到主页}
 
   if (user_email.value === '') { // 确保使用正确的变量
     alert('请输入邮箱地址');
@@ -70,6 +70,16 @@ const login = async () => {
     }
 
     const data = await response.json(); // 解析返回的JSON数据
+    localStorage.setItem('userInfo', JSON.stringify(data));
+
+    //下面代码测试用
+    const storedUserInfo = localStorage.getItem('userInfo');
+      if (storedUserInfo) {
+        data.value = JSON.parse(storedUserInfo);
+      }
+      console.log(data.value.data);
+
+//————————————————————————————————————————————————————————————————————————————————————
 
     if (data.code === 0) {
       console.log('Login successful:', data.message);
