@@ -57,7 +57,7 @@ const login = async () => {
     }).toString();
 
     // 发送 POST 请求
-    const response = await fetch('http://192.168.188.92:5000/user/login', {
+    const response = await fetch('http://10.203.183.143:5000/user/login', {
       method: 'POST', // 指定请求方法
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
@@ -76,7 +76,7 @@ const login = async () => {
     const storedUserInfo = localStorage.getItem('userInfo');
       if (storedUserInfo) {
         data.value = JSON.parse(storedUserInfo);
-        data.value.data.user_name=localStorage.setItem('token', JSON.stringify());
+        localStorage.setItem('token', JSON.stringify(data.value.data.user_name));
       }
       console.log(data.value.data);
 
@@ -120,7 +120,7 @@ const getVerificationCode = async () => {
 
     const body = new URLSearchParams({ 'user_email': user_email.value }).toString();
 
-    const response = await fetch('http://192.168.188.92:5000/user/verify', {
+    const response = await fetch('http://10.203.183.143:5000/user/verify', {
       method: 'POST', // 指定请求方法
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头

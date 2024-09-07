@@ -56,7 +56,7 @@
     }).toString();
 
     // 发送 POST 请求
-    const response = await fetch('http://192.168.188.92:5000/user/register', {
+    const response = await fetch('http://10.203.183.143:5000/user/register', {
       method: 'POST', // 指定请求方法
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
@@ -98,7 +98,7 @@ const getVerificationCode = async () => {
     // formData.append('email', email.value);
     const body = new URLSearchParams({ 'user_email': user_email.value }).toString();
 
-    const response = await fetch('http://192.168.188.92:5000/user/verify', {
+    const response = await fetch('http://10.203.183.143:5000/user/verify', {
       method: 'POST', // 指定请求方法
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
