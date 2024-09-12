@@ -1,13 +1,14 @@
 <template>
   <div class="common-layout">
-    <el-container>
+    <el-container style="height: 100%;">
       <el-aside width="200px">
         <el-scrollbar>
-          <el-menu default-active="1-1" class="el-menu-vertical-demo">
+          <el-menu default-active="2-2" class="el-menu-vertical-demo">
             <el-sub-menu index="1">
               <template #title>
                 <el-icon>
                   <message />
+                  <el-icon><User /></el-icon>
                 </el-icon>用户管理
               </template>
               <el-menu-item index="1-1" @click="goToUserManagement">用户管理</el-menu-item>
@@ -16,6 +17,7 @@
               <template #title>
                 <el-icon>
                   <icon-menu />
+                  <el-icon><Edit /></el-icon>
                 </el-icon>数据库管理
               </template>
               <el-menu-item index="2-1" @click="goToImageManagement">图像管理</el-menu-item>
@@ -27,7 +29,7 @@
       <el-container>
         <el-header>
           <div style="display: flex; align-items: center;">
-            <el-input placeholder="请输入搜索内容" v-model="searchText" style="width: 200px; margin-right: 10px;">
+            <el-input placeholder="请输入搜索内容" v-model="keyword_text" style="width: 200px; margin-right: 10px;">
             </el-input>
             <el-button type="primary" @click="searchTexts">搜索</el-button>
           </div>
@@ -36,22 +38,30 @@
               <Document />
             </el-icon>
             <span>当前文本数量：{{ textList.length }}</span>
+            
           </div>
+          <el-popconfirm title="你确定退出登录吗" @confirm="OutLog">
+            <template #reference>
+              <el-button type="warning">
+                退出登录<el-icon class="el-icon--right">
+                  <Upload />
+                </el-icon>
+              </el-button>
+            </template>
+          </el-popconfirm>
         </el-header>
         <el-main>
           <el-table :data="textList" style="width: 100%" :default-sort="{ prop: 'uploadTime', order: 'ascending' }"
             @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55">
             </el-table-column>
-            <el-table-column prop="info" label="文本信息" sortable width="180">
+            <el-table-column prop="text_id" label="ID" sortable width="180">            
             </el-table-column>
-            <el-table-column prop="id" label="ID" sortable width="180">
-            </el-table-column>
-            <el-table-column prop="uploadTime" label="上传时间" sortable width="240">
+            <el-table-column prop="text_info" label="文本信息" sortable width="600">
             </el-table-column>
             <el-table-column label="操作" width="100">
               <template #default="scope">
-                <el-popconfirm title="Are you sure to delete this?" @confirm="Textdelete(scope.row)">
+                <el-popconfirm title="你确定删除这条文本吗?" @confirm="Textdelete(scope.row)">
                   <template #reference>
                     <el-button size="small" type="danger">Delete</el-button>
                   </template>
@@ -61,202 +71,230 @@
           </el-table>
         </el-main>
         <el-footer>
-          <el-upload action="/administrator/image-upload" :on-preview="handlePreview" :on-remove="handleRemove"
-            :before-remove="beforeRemove" multiple :limit="3" :on-exceed="handleExceed" :file-list="fileList">
-            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-            <el-button style="margin-left: 10px;" size="small" type="success" @click="TextUpload">上传到服务器</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
+            <el-input v-model="textinput" style="width: 500px;" placeholder="上传文本">
+              <template #prefix>
+                <el-icon class="el-input__icon">
+                  <search />
+                </el-icon>
+              </template>
+            </el-input>
+            <el-button size="small" type="primary" style="width :200;margin-right: 63%;margin-left: 30px;height: 50%;" @click="uploadTexts ">上传到服务器</el-button>
         </el-footer>
       </el-container>
     </el-container>
   </div>
 </template>
 
-<script>
+<script setup>
   import {
     User,
-    Picture,
-    Document
+    Document,
+    Search,
+    Edit,
+    Upload
   } from '@element-plus/icons-vue';
+  import {
+    ref
+  } from 'vue';
+  import {
+    useRouter
+  } from 'vue-router';
+  import { onMounted } from 'vue';
+  import { ElMessage } from 'element-plus';
 
-  export default {
-    components: {
-      User,
-      Picture,
-      Document
+
+// 使用onMounted钩子，在组件挂载后调用
+onMounted(() => {
+  getTexts();
+});
+  var textList = ref([{
+  
     },
-    data() {
-      return {
-        // 示例文本数据
-        textList: [{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },
-          {
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },
-          {
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },{
-            info: 'jgjng',
-            id: "1",
-            uploadTime: 'dsads'
-          },
-        ],
-        imageCount: 1000,
-        textCount: 2000,
-        searchText: '' // 搜索文本内容
-      };
-    },
-    methods: {
 
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      goToTextManagement() {
-        // 使用 this.$router.push() 方法导航到新的路由
-        this.$router.push('/TextM');
-      },
-      goToUserManagement() {
-        // 使用 this.$router.push() 方法导航到新的路由
-        this.$router.push('/UserM');
-      },
-      goToImageManagement() {
-        // 使用 this.$router.push() 方法导航到新的路由
-        this.$router.push('/ImageM');
-      },
-      searchTexts() {
-        // 搜索文本的逻辑
-        console.log('搜索文本:', this.searchText);
-        // 这里可以添加搜索文本的API调用
 
-      },
-      async Textdelete(row) {
-        // 删除文本的逻辑
-        console.log('删除文本:', row.id);
-        try {
-          // 调用后端API来删除文本
-          // 注意：这里假设后端API需要接收一个包含ID的对象
-          const response = await this.$http.post(`/adminstrator/user_dele`, {
-            id: row.id
-          });
-          // 处理响应，例如更新文本列表
-          if (response.status === 200) {
-            // 假设后端返回了删除成功的状态
-            this.$message({
-              type: 'success',
-              message: '文本删除成功!'
-            });
-            // 从前端列表中移除已删除的文本
-            const index = this.textList.findIndex(text => text.id === row.id);
-            if (index !== -1) {
-              this.textList.splice(index, 1);
-            }
-          } else {
-            // 处理其他状态码
-            this.$message({
-              type: 'error',
-              message: '文本删除失败!'
-            });
-          }
-        } catch (error) {
-          // 处理网络错误或API错误
-          console.error('删除文本失败:', error);
-          this.$message({
-            type: 'error',
-            message: '文本删除失败!'
-          });
+    // 更多文本数据...
+  ]);
+  const keyword_text=ref('')
+  const getTexts = async () => {
+  try {
+    const response = await fetch('http://192.168.188.92:5000/administrator/textlist', {
+      method: 'POST',
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json(); // 解析返回的JSON数据
+    console.log('list get successfully:', data);
+    // 如果需要根据后端响应做进一步处理
+    if (data.code === 0) {
+      textList.value = data.data; // 更新List
+    } else {
+      console.error('Failed to retrieve text list:', data);
+    }
+  } catch (error) {
+    console.error('Error fetching text list:', error);
+  }
+};
+  const textinput = ref('');
+
+  const router = useRouter();
+
+  const handleOpen = (key, keyPath) => {
+    console.log(key, keyPath);
+  };
+
+  const handleClose = (key, keyPath) => {
+    console.log(key, keyPath);
+  };
+
+  const goToTextManagement = () => {
+    router.push('/TextM');
+  };
+
+  const goToUserManagement = () => {
+    router.push('/UserM');
+  };
+
+  const goToImageManagement = () => {
+    router.push('/ImageM');
+  };
+  const OutLog=()=>{
+    router.push('/ALogin')
+  };
+  const searchTexts=async()=> {
+    console.log(keyword_text.value)
+      try {
+        // 构造请求体
+        const body = new URLSearchParams({
+          'input_text': keyword_text.value
+        }).toString();
+        // 发送请求到后端API
+        const response = await fetch(`http://192.168.188.92:5000/administrator/TextSearch`, {
+          method: 'POST', // 指定请求方法
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
+          },
+          body: body
+        });
+        // 处理响应
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        } else {
+          const data = await response.json(); // 解析返回的JSON数据
+          textList.value = data; // 将解析后的JSON数据存储在userList中
         }
+      } catch (error) {
+        console.error('搜索失败:', error);
+        ElMessage({
+          type: 'error',
+          message: '搜索失败!'
+        });
+      }
+    }; 
+  const Textdelete = async (row) => {
+    try {
+     // 构造请求体
+     const body = new URLSearchParams({
+        'text_id': row.text_id,
+      }).toString();
+      // 发送请求到后端API来删除用户
+      const response = await fetch(`http://192.168.188.92:5000/administrator/deleteText`, {
+        method: 'POST', // 指定请求方法
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
+        },
+        body:body
+      });
+      // 处理响应，例如更新文本列表
+      if (response.status === 200) {
+        const data = await response.json(); // 解析返回的JSON数据
+        // 假设后端返回了删除成功的状态
+       if(data.code===0){
+        ElMessage({
+          type: 'success',
+          message: '文本删除成功!'
+        });
+       }
+       else{
+        ElMessage({
+          type: 'error',
+          message: '文本删除失败!'
+        });
+       }
+        // 从前端列表中移除已删除的文本
+        const index = textList.value.findIndex(text => text.text_id === parseInt(row.text_id));
+        console.log('删除文本:', index);
+        if (index !== -1) {
+          textList.value.splice(index, 1);
+        }
+      } else {
+        // 处理其他状态码
+        ELMessage({
+          type: 'error',
+          message: '文本删除失败!'
+        });
+      }
+    } catch (error) {
+      // 处理网络错误或API错误
+      console.error('删除文本失败:', error);
+      ELMmessage({
+        type: 'error',
+        message: data.$message
+      });
+    }
+  };
+
+  const uploadTexts = async () => {
+    try {
+       // 构造请求体
+    const body = new URLSearchParams({
+      'text': textinput.value,
+    }).toString();
+      const response = await fetch(`http://192.168.188.92:5000/administrator/addtext`, {
+      method: 'POST', // 指定请求方法
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
       },
+      body: body
+      });
+      // 处理响应
+      if (response.status === 200) {
+        // 假设后端返回了上传成功的状态
+        const data = await response.json(); // 解析返回的JSON数据
+        // 假设后端返回了删除成功的状态
+       if(data.code===0){
+        ElMessage({
+          type: 'success',
+          message: '文本上传成功!'
+        });
+        const newText={
+      text_id:'未更新',
+      text_info:textinput.value
+    }
+    textList.value.push(newText)
+       }
+       if(data.code===-1){
+        ElMessage({
+          type: 'error',
+          message: '请输入文本!'
+        });
+       }
+  
+    textinput.value=''
+      } else {
+        // 处理其他状态码
+        ElMessage({
+      type: 'error',
+      message: '文本上传失败!'
+    });
+      }
+    } catch (error) {
+      // 处理网络错误或API错误
+      console.error('上传文本失败:', error);
+      ElMessage({
+      type: 'error',
+      message: '网络发生错误 文本上传失败!'
+    });
     }
   };
 </script>
@@ -358,7 +396,7 @@
   .el-menu-vertical-demo .el-menu-item.is-active {
     color: #409EFF;
     /* 设置激活状态下的文字颜色 */
-    background-color: #263445 !important;
+    background-color: #6a9bd8 !important;
     /* 设置激活状态下的背景颜色 */
   }
 

@@ -4,11 +4,14 @@
       <!-- 侧边栏代码保持不变 -->
       <el-aside width="200px">
         <el-scrollbar>
-          <el-menu default-active="1-1" class="el-menu-vertical-demo">
+          <el-menu default-active="2-1" class="el-menu-vertical-demo">
             <el-sub-menu index="1">
               <template #title>
                 <el-icon>
                   <message />
+                  <el-icon>
+                    <User />
+                  </el-icon>
                 </el-icon>用户管理
               </template>
               <el-menu-item index="1-1" @click="goToUserManagement">用户管理</el-menu-item>
@@ -17,6 +20,9 @@
               <template #title>
                 <el-icon>
                   <icon-menu />
+                  <el-icon>
+                    <Edit />
+                  </el-icon>
                 </el-icon>数据库管理
               </template>
               <el-menu-item index="2-1" @click="goToImageManagement">图像管理</el-menu-item>
@@ -29,140 +35,247 @@
         <el-header>
           <!-- 搜索栏 -->
           <div style="display: flex; align-items: center;">
-            <el-input placeholder="请输入搜索内容" v-model="searchImageText" style="width: 200px; margin-right: 10px;">
+            <el-input placeholder="请输入图片id" v-model="keyword_image" style="width: 200px; margin-right: 10px;">
             </el-input>
-            <el-button type="primary" @click="searchImages">搜索</el-button>
-          </div>
+            <el-button @click="searchImages">搜索</el-button>          </div>
           <div style="display: flex; align-items: center; margin-right: 10px;">
             <el-icon style="margin-right: 10px;">
               <Picture />
             </el-icon>
-            <span>图片数量：{{ imageCount }}</span>
+            <span>图片数量：{{ imageList.length }}</span>
           </div>
+          <el-popconfirm title="你确定退出登录吗" @confirm="OutLog">
+            <template #reference>
+              <el-button type="warning">
+                退出登录<el-icon class="el-icon--right">
+                  <Upload />
+                </el-icon>
+              </el-button>
+            </template>
+          </el-popconfirm>
         </el-header>
         <el-main>
           <!-- 图片列表 -->
           <el-table :data="imageList" style="width: 100%" :default-sort="{ prop: 'uploadTime', order: 'ascending' }"
-            @selection-change="handleSelectionChange">
+            @selection-change="handleSelectionChange" ref="tableRef">
             <el-table-column type="selection" width="55">
             </el-table-column>
-            <el-table-column prop="id" label="序号" sortable width="180">
+            <el-table-column prop="image_id" label="序号" sortable width="180">
             </el-table-column>
-            <el-table-column prop="info" label="图片信息" sortable width="180">
+            <el-table-column label="图片">
+              <template #default="{ row }">
+                <el-image :src="row.image_info" style="width: 400px; height: auto;"></el-image>
+              </template>
             </el-table-column>
-            <el-table-column prop="uploadTime" label="上传时间" sortable width="240">
+            <el-table-column prop="image_info" label="图片信息" sortable width="600" v-if="false">
             </el-table-column>
             <el-table-column label="操作" width="100">
               <template #default="scope">
-                <el-button size="small" type="danger" @click="deleteImage(scope.row)">删除</el-button>
+            
+                <el-popconfirm title="你确定删除这张图片吗?" @confirm="deleteImage(scope.row)">
+                  <template #reference>
+                    <el-button size="small" type="danger" style="height: 50%;">删除
+                    </el-button>
+                  </template>
+                </el-popconfirm>
               </template>
             </el-table-column>
           </el-table>
         </el-main>
         <el-footer>
-          <el-upload action="/administrator/image-upload" :on-preview="handlePreview" :on-remove="handleRemove"
-            :before-remove="beforeRemove" multiple :limit="3" :on-exceed="handleExceed" :file-list="fileList">
-            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-            <el-button style="margin-left: 10px;" size="small" type="success" @click="ImageUpload">上传到服务器</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
+          <label for="file-input" class="upload-button">Upload Image</label>
+          <input type="file" id="file-input" accept="image/*" @change="uploadImage" style="display: none;" />
         </el-footer>
       </el-container>
     </el-container>
   </div>
 </template>
 
-<script>
+<script setup>
+  import {
+    ref
+  } from 'vue';
+  import {
+    useRouter
+  } from 'vue-router';
   import {
     User,
     Picture,
-    Document
+    Edit,
+    Upload
   } from '@element-plus/icons-vue';
+  import {
+    onMounted
+  } from 'vue';
 
-  export default {
-    components: {
-      User, // 注册用户图标组件
-      Picture, // 注册图片图标组件
-      Document // 注册文档图标组件
-    },
-    data() {
-      return {
-        // 示例用户数据
-        userList: [{
-            name: '张三',
-            email: 'zhangsan@example.com',
-          },
-          {
-            name: '李四',
-            email: 'lisi@example.com',
-          },
-          // 更多用户数据...
-        ],
-        // 用户数量
-        userCount: 100,
-        // 数据库图片数量
-        imageCount: 1000,
-        // 数据库文本数量
-        textCount: 2000
-      };
-    },
-    methods: {
-      // 菜单打开和关闭事件处理
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      goToTextManagement() {
-        // 使用 this.$router.push() 方法导航到新的路由
-        this.$router.push('/TextM');
-      },
-      goToUserManagement() {
-        // 使用 this.$router.push() 方法导航到新的路由
-        this.$router.push('/UserM');
-      },
-      goToImageManagement() {
-        // 使用 this.$router.push() 方法导航到新的路由
-        this.$router.push('/ImageM');
-      },
-      async deleteImage(row) {
-        // 删除图片的逻辑
-        console.log('删除图片:', row.id);
-        try {
-          // 调用后端API来删除图片
-          const response = await this.$http.delete(`/api/images/${row.id}`);
-          // 处理响应，例如更新图片列表
-          if (response.status === 200) {
-            // 假设后端返回了删除成功的状态
-            this.$message({
-              type: 'success',
-              message: '图片删除成功!'
-            });
-            // 从前端列表中移除已删除的图片
-            const index = this.imageList.findIndex(image => image.id === row.id);
-            if (index !== -1) {
-              this.imageList.splice(index, 1);
-            }
-          } else {
-            // 处理其他状态码
-            this.$message({
-              type: 'error',
-              message: '图片删除失败!'
-            });
-          }
-        } catch (error) {
-          // 处理网络错误或API错误
-          console.error('删除图片失败:', error);
-          this.$message({
-            type: 'error',
-            message: '图片删除失败!'
-          });
-        }
-      },
-    }
 
+  // 使用onMounted钩子，在组件挂载后调用
+  onMounted(() => {
+    getImage();
+  });
+ 
+  // 路由器实例
+  const router = useRouter();
+  const keyword_image = ref('')
+  const fileList = ref([])
+  var imageList = ref([
+
+]);
+  import { ElMessage } from 'element-plus';
+
+  // 定义方法
+  const handleOpen = (key, keyPath) => {
+    console.log(key, keyPath);
   };
+
+  const handleClose = (key, keyPath) => {
+    console.log(key, keyPath);
+  };
+
+  const goToTextManagement = () => {
+    router.push('/TextM');
+  };
+
+  const goToUserManagement = () => {
+    router.push('/UserM');
+  };
+
+  const goToImageManagement = () => {
+    router.push('/ImageM');
+  };
+  const OutLog=()=>{
+    router.push('/ALogin')
+  };
+  const deleteImage = async (row) => {
+    console.log('删除图片:', row.id);
+    const body = new URLSearchParams({
+        'image_id': row.image_id,
+      }).toString();
+    try {
+      // 发送请求到后端API
+      const response = await fetch(`http://192.168.188.92:5000/administrator/deleteImage`, {
+        method: 'POST', // 指定请求方法
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
+        },
+        body: body
+      });
+      if (response.status === 200) {
+        // 假设后端返回了删除成功的状态
+        ElMessage({
+          type: 'success',
+          message: '图片删除成功!'
+          });
+        // 从前端列表中移除已删除的图片
+        const index = imageList.value.findIndex(imag => imag.image_id === parseInt(row.image_id));
+        console.log(index)
+        if (index !== -1) {
+          imageList.value.splice(index, 1);
+        }
+      } else {
+        // 处理其他状态码
+      ElMessage({
+          type: 'error',
+          message: '图片删除失败!'
+        });
+      }
+    } catch (error) {
+      // 处理网络错误或API错误
+      console.error('删除图片失败:', error);
+      ElMessage({
+        type: 'error',
+        message: '网络发生错误 图片删除失败!'
+      });
+    }
+  };
+  const getImage = async () => {
+    try {
+      const response = await fetch('http://192.168.188.92:5000/administrator/imagelist', {
+        method: 'POST',
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json(); // 解析返回的JSON数据
+      console.log('list get successfully:', data);
+      // 如果需要根据后端响应做进一步处理
+      if (data.code === 0) {
+        imageList.value = data.data; // 更新imageList
+      } else {
+        console.error('Failed to retrieve image list:', data);
+      }
+    } catch (error) {
+      console.error('Error fetching image list:', error);
+    }
+  };
+ 
+const uploadImage = async(event) => {
+  // 获取选中的文件列表
+  const files = event.target.files;
+
+  // 将所有选中的文件添加到 fileList 中
+  for (let i = 0; i < files.length; i++) {
+    fileList.value.push(files[i]);
+  }
+    // 创建 FormData 对象
+    const formData = new FormData();
+
+    // 遍历文件列表，将文件添加到 FormData 中
+    for (const file of fileList.value) {
+      formData.append('image', file);
+      console.log(file)
+    }
+    // 发送 POST 请求
+    const response = await fetch('http://192.168.188.92:5000/administrator/addimage', {
+      method: 'POST',
+      body: formData
+    });
+    // 处理响应
+    if (response.status === 200) {
+      ElMessage({
+        type: 'success',
+        message: '图像上传成功!'
+      });
+    } else {
+      ElMessage({
+        type: 'error',
+        message: '图像上传失败!'
+      });
+    }
+  
+};
+const searchImages=async()=> {
+      try {
+        // 构造请求体
+        const body = new URLSearchParams({
+          'input_image': keyword_image.value
+        }).toString();
+        // 发送请求到后端API
+        const response = await fetch(`http://192.168.188.92:5000/administrator/ImageSearch`, {
+          method: 'POST', // 指定请求方法
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
+          },
+          body: body
+        });
+        // 处理响应
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        } else {
+          const data = await response.json(); // 解析返回的JSON数据
+          console.log('get list successfully',data)
+          imageList.value = data.data; // 将解析后的JSON数据存储在userList中
+          console.log('upgrade successfully',imageList.value)
+
+        }
+      } catch (error) {
+        console.error('搜索失败:', error);
+        ElMessage({
+          type: 'error',
+          message: '搜索失败!'
+        });
+      }
+    }; 
 </script>
 
 <style>
@@ -257,7 +370,7 @@
   .el-menu-vertical-demo .el-menu-item.is-active {
     color: #409EFF;
     /* 设置激活状态下的文字颜色 */
-    background-color: #263445 !important;
+    background-color: #6ca5eb !important;
     /* 设置激活状态下的背景颜色 */
   }
 
