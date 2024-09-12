@@ -116,7 +116,7 @@ const handleFileChange = async (event: Event) => {
     formData.append('img_path', file);
 
     try {
-      const response = await fetch('http://192.168.188.92:5000/user/update_img', {
+      const response = await fetch('http://127.0.0.1:5000/user/update_img', {
         method: 'POST',
         body: formData
       });
@@ -160,7 +160,7 @@ const confirmChangeName = async () => {
       'new_username': newUserName.value
     }).toString();
 
-    const response = await fetch('http://192.168.188.92:5000/user/update_name', {
+    const response = await fetch('http://127.0.0.1:5000/user/update_name', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -194,7 +194,7 @@ const updateSatisfaction = async (rating: number) => {
   localStorage.setItem('satisfaction', integerRating.toString());
 
   try {
-    const response = await fetch('http://192.168.188.92:5000/user/satisfaction', {
+    const response = await fetch('http://127.0.0.1:5000/user/satisfaction', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'

@@ -72,7 +72,7 @@ const register = async () => {
       'password2': confirmPassword.value
     }).toString();
 
-    const response = await fetch('http://192.168.188.92:5000/administrator/register', {
+    const response = await fetch('http://127.0.0.1:5000/administrator/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -109,7 +109,7 @@ const getVerificationCode = async () => {
   try {
     const body = new URLSearchParams({ 'email': administrator_email.value }).toString();
 
-    const response = await fetch('http://192.168.188.92:5000/administrator/verify', {
+    const response = await fetch('http://127.0.0.1:5000/administrator/verify', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'

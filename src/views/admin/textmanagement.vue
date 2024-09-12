@@ -117,7 +117,7 @@ onMounted(() => {
   const keyword_text=ref('')
   const getTexts = async () => {
   try {
-    const response = await fetch('http://192.168.188.92:5000/administrator/textlist', {
+    const response = await fetch('http://127.0.0.1:5000/administrator/textlist', {
       method: 'POST',
     });
     if (!response.ok) {
@@ -169,7 +169,7 @@ onMounted(() => {
           'input_text': keyword_text.value
         }).toString();
         // 发送请求到后端API
-        const response = await fetch(`http://192.168.188.92:5000/administrator/TextSearch`, {
+        const response = await fetch(`http://127.0.0.1:5000/administrator/TextSearch`, {
           method: 'POST', // 指定请求方法
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
@@ -198,7 +198,7 @@ onMounted(() => {
         'text_id': row.text_id,
       }).toString();
       // 发送请求到后端API来删除用户
-      const response = await fetch(`http://192.168.188.92:5000/administrator/deleteText`, {
+      const response = await fetch(`http://127.0.0.1:5000/administrator/deleteText`, {
         method: 'POST', // 指定请求方法
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
@@ -250,7 +250,7 @@ onMounted(() => {
     const body = new URLSearchParams({
       'text': textinput.value,
     }).toString();
-      const response = await fetch(`http://192.168.188.92:5000/administrator/addtext`, {
+      const response = await fetch(`http://127.0.0.1:5000/administrator/addtext`, {
       method: 'POST', // 指定请求方法
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头

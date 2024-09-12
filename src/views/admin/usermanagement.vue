@@ -138,7 +138,7 @@
   // 定义你想要调用的函数
   const getUser = async () => {
     try {
-      const response = await fetch('http://192.168.188.92:5000/administrator/userlist', {
+      const response = await fetch('http://127.0.0.1:5000/administrator/userlist', {
         method: 'POST',
       });
       if (!response.ok) {
@@ -165,7 +165,7 @@
       }).toString();
       // 发送请求到后端API来删除用户
       console.log("delete_id", row.user_id);
-      const response = await fetch(`http://192.168.188.92:5000/administrator/deleteUser`, {
+      const response = await fetch(`http://127.0.0.1:5000/administrator/deleteUser`, {
         method: 'POST', // 指定请求方法
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
@@ -214,7 +214,7 @@
         'input_user': keyword_user.value
       }).toString();
       // 发送请求到后端API
-      const response = await fetch(`http://192.168.188.92:5000/administrator/UserSearch`, {
+      const response = await fetch(`http://127.0.0.1:5000/administrator/UserSearch`, {
         method: 'POST', // 指定请求方法
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头

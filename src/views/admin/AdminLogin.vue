@@ -49,7 +49,7 @@ const login = async () => {
       'password': password.value
     }).toString();
 
-    const response = await fetch('http://192.168.188.92:5000/administrator/login', {
+    const response = await fetch('http://127.0.0.1:5000/administrator/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'

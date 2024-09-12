@@ -48,7 +48,7 @@ const login = async () => {
       'v_code': v_code.value
     }).toString();
 
-    const response = await fetch('http://192.168.188.92:5000/user/login', {
+    const response = await fetch('http://127.0.0.1:5000/user/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -102,7 +102,7 @@ const getVerificationCode = async () => {
   try {
     const body = new URLSearchParams({ 'user_email': user_email.value }).toString();
 
-    const response = await fetch('http://192.168.188.92:5000/user/verify', {
+    const response = await fetch('http://127.0.0.1:5000/user/verify', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'

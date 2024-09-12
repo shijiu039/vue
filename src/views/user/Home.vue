@@ -124,7 +124,7 @@ console.log(dialogueId);
         const formData = new FormData();
         formData.append('dialogue_id', dialogueId);
 
-        const response = await fetch(`http://192.168.188.92:5000/user/deletedialogue`, {
+        const response = await fetch(`http://127.0.0.1:5000/user/deletedialogue`, {
           method: 'POST',
           body: formData // 使用FormData对象作为请求体
         });
@@ -163,7 +163,7 @@ const fetchAllDialogues = async () => {
         const formData = new FormData();
         formData.append('user_id', userId);
 
-        const response = await fetch('http://192.168.188.92:5000/user/dialoguelist', {
+        const response = await fetch('http://127.0.0.1:5000/user/dialoguelist', {
           method: 'POST',
           body: formData
         });
@@ -199,7 +199,7 @@ const getDialogueMessages = async (dialogueId: string) => {
     formData.append('user_id', userId);
     formData.append('dialogue_id', dialogueId);
 
-    const response = await fetch('http://192.168.188.92:5000/user/get_dialogue', {
+    const response = await fetch('http://127.0.0.1:5000/user/get_dialogue', {
       method: 'POST',
       body: formData
     });
@@ -296,7 +296,7 @@ const addNewSession = async () => {
       const formData = new FormData();
       formData.append('user_id', userId);
       formData.append('title', title);
-      const response = await fetch('http://192.168.188.92:5000/user/new_dialogue', {
+      const response = await fetch('http://127.0.0.1:5000/user/new_dialogue', {
         method: 'POST',
         body: formData
       });
@@ -340,7 +340,7 @@ const sendMessage = async () => {
     };
 
     try {
-      const response = await fetch('http://192.168.188.92:5000/user/texttoimage', {
+      const response = await fetch('http://127.0.0.1:5000/user/texttoimage', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -404,7 +404,7 @@ const uploadImage = async (event: Event) => {
       formData.append('user_id', userInfo.value.data.user_id);
       formData.append('dialogue_id', currentSession.value.dialogue_id);
       try {
-        const response = await fetch('http://192.168.188.92:5000/user/imagetotext', {
+        const response = await fetch('http://127.0.0.1:5000/user/imagetotext', {
           method: 'POST',
           body: formData
         });
@@ -480,7 +480,7 @@ const deleteMessage = async (historyId: string) => {
     const formData = new FormData();
     formData.append('history', historyId);
 
-    const response = await fetch('http://192.168.188.92:5000/user/deletehistory', {
+    const response = await fetch('http://127.0.0.1:5000/user/deletehistory', {
       method: 'POST',
       body: formData
     });

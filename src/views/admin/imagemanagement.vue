@@ -153,7 +153,7 @@
       }).toString();
     try {
       // 发送请求到后端API
-      const response = await fetch(`http://192.168.188.92:5000/administrator/deleteImage`, {
+      const response = await fetch(`http://127.0.0.1:5000/administrator/deleteImage`, {
         method: 'POST', // 指定请求方法
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
@@ -190,7 +190,7 @@
   };
   const getImage = async () => {
     try {
-      const response = await fetch('http://192.168.188.92:5000/administrator/imagelist', {
+      const response = await fetch('http://127.0.0.1:5000/administrator/imagelist', {
         method: 'POST',
       });
       if (!response.ok) {
@@ -226,7 +226,7 @@ const uploadImage = async(event) => {
       console.log(file)
     }
     // 发送 POST 请求
-    const response = await fetch('http://192.168.188.92:5000/administrator/addimage', {
+    const response = await fetch('http://127.0.0.1:5000/administrator/addimage', {
       method: 'POST',
       body: formData
     });
@@ -251,7 +251,7 @@ const searchImages=async()=> {
           'input_image': keyword_image.value
         }).toString();
         // 发送请求到后端API
-        const response = await fetch(`http://192.168.188.92:5000/administrator/ImageSearch`, {
+        const response = await fetch(`http://127.0.0.1:5000/administrator/ImageSearch`, {
           method: 'POST', // 指定请求方法
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
