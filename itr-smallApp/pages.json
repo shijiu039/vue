@@ -1,0 +1,64 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		
+		{
+			"path": "pages/index/index"
+		},
+		{
+			"path" : "pages/index/register"
+		},
+		{
+			"path" : "pages/index/home"
+		},
+		{
+			"path" : "pages/index/dialogue"
+
+		},
+		{
+			"path" : "pages/index/PersonalPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/index/update_name",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/index/about",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/index/satisfication",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		}
+		
+	],
+	"easycom": {
+			"autoscan": true,
+			"custom": {
+				"tui-(.*)": "thorui-uni/lib/thorui/tui-$1/tui-$1.vue"
+			}
+		},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F0FFF0",
+		"backgroundColor": "#F8F8F8",
+		"navigationBarTitleText" : "跨模态图文检索系统",
+		"enablePullDownRefresh" : true,
+		"backgroundColor" : "#d0d3da",
+		"backgroundTextStyle":"light"
+	},
+	"uniIdRouter": {}
+}

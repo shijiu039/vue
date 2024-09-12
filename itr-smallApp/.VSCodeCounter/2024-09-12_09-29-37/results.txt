@@ -1,0 +1,98 @@
+Date : 2024-09-12 09:29:37
+Directory : d:\pythonpj\itr-smallApp
+Total : 50 files,  9203 codes, 601 comments, 333 blanks, all 10137 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JavaScript         |         18 |      4,762 |        239 |         35 |      5,036 |
+| Vue                |          9 |      1,927 |        148 |        196 |      2,271 |
+| CSS                |          9 |      1,782 |        177 |         73 |      2,032 |
+| JSON               |         10 |        633 |          8 |          8 |        649 |
+| HTML               |          2 |         38 |          2 |          5 |         45 |
+| SCSS               |          1 |         37 |         25 |         15 |         77 |
+| JSON with Comments |          1 |         24 |          2 |          1 |         27 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                               | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                  |         50 |      9,203 |        601 |        333 |     10,137 |
+| . (Files)                                                                          |          9 |        588 |         43 |         29 |        660 |
+| .hbuilderx                                                                         |          1 |         24 |          2 |          1 |         27 |
+| pages                                                                              |          8 |      1,894 |        145 |        193 |      2,232 |
+| pages\index                                                                        |          8 |      1,894 |        145 |        193 |      2,232 |
+| store                                                                              |          1 |         10 |          1 |          2 |         13 |
+| stores                                                                             |          1 |         12 |          5 |          2 |         19 |
+| unpackage                                                                          |         30 |      6,675 |        405 |        106 |      7,186 |
+| unpackage\dist                                                                     |         30 |      6,675 |        405 |        106 |      7,186 |
+| unpackage\dist\cache                                                               |          2 |         11 |          0 |          1 |         12 |
+| unpackage\dist\cache\.vite                                                         |          2 |         11 |          0 |          1 |         12 |
+| unpackage\dist\cache\.vite\deps                                                    |          2 |         11 |          0 |          1 |         12 |
+| unpackage\dist\dev                                                                 |         28 |      6,664 |        405 |        105 |      7,174 |
+| unpackage\dist\dev\.nvue                                                           |          2 |         13 |          0 |          2 |         15 |
+| unpackage\dist\dev\app-plus                                                        |         22 |      6,566 |        405 |        102 |      7,073 |
+| unpackage\dist\dev\app-plus (Files)                                                |         14 |      4,785 |        229 |         32 |      5,046 |
+| unpackage\dist\dev\app-plus\pages                                                  |          8 |      1,781 |        176 |         70 |      2,027 |
+| unpackage\dist\dev\app-plus\pages\index                                            |          8 |      1,781 |        176 |         70 |      2,027 |
+| unpackage\dist\dev\mp-weixin                                                       |          4 |         85 |          0 |          1 |         86 |
++------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                           | language           | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| d:\pythonpj\itr-smallApp\.hbuilderx\launch.json                                    | JSON with Comments |         24 |          2 |          1 |         27 |
+| d:\pythonpj\itr-smallApp\App.vue                                                   | Vue                |         33 |          3 |          3 |         39 |
+| d:\pythonpj\itr-smallApp\index.html                                                | HTML               |         18 |          2 |          1 |         21 |
+| d:\pythonpj\itr-smallApp\main.js                                                   | JavaScript         |         21 |          5 |          3 |         29 |
+| d:\pythonpj\itr-smallApp\manifest.json                                             | JSON               |         64 |          8 |          1 |         73 |
+| d:\pythonpj\itr-smallApp\package-lock.json                                         | JSON               |        338 |          0 |          1 |        339 |
+| d:\pythonpj\itr-smallApp\package.json                                              | JSON               |          6 |          0 |          1 |          7 |
+| d:\pythonpj\itr-smallApp\pages.json                                                | JSON               |         61 |          0 |          4 |         65 |
+| d:\pythonpj\itr-smallApp\pages\index\PersonalPage.vue                              | Vue                |        439 |         15 |         54 |        508 |
+| d:\pythonpj\itr-smallApp\pages\index\about.vue                                     | Vue                |         57 |          1 |          7 |         65 |
+| d:\pythonpj\itr-smallApp\pages\index\dialogue.vue                                  | Vue                |        559 |         60 |         35 |        654 |
+| d:\pythonpj\itr-smallApp\pages\index\home.vue                                      | Vue                |        232 |         52 |         24 |        308 |
+| d:\pythonpj\itr-smallApp\pages\index\index.vue                                     | Vue                |        209 |          8 |         27 |        244 |
+| d:\pythonpj\itr-smallApp\pages\index\register.vue                                  | Vue                |        193 |          3 |         27 |        223 |
+| d:\pythonpj\itr-smallApp\pages\index\satisfication.vue                             | Vue                |        100 |          1 |          9 |        110 |
+| d:\pythonpj\itr-smallApp\pages\index\update_name.vue                               | Vue                |        105 |          5 |         10 |        120 |
+| d:\pythonpj\itr-smallApp\store\index.js                                            | JavaScript         |         10 |          1 |          2 |         13 |
+| d:\pythonpj\itr-smallApp\stores\useCounterStore.js                                 | JavaScript         |         12 |          5 |          2 |         19 |
+| d:\pythonpj\itr-smallApp\uni.promisify.adaptor.js                                  | JavaScript         |         10 |          0 |          0 |         10 |
+| d:\pythonpj\itr-smallApp\uni.scss                                                  | SCSS               |         37 |         25 |         15 |         77 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\cache\.vite\deps\_metadata.json            | JSON               |          8 |          0 |          0 |          8 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\cache\.vite\deps\package.json              | JSON               |          3 |          0 |          1 |          4 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\.nvue\app.css.js                       | JavaScript         |         11 |          0 |          1 |         12 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\.nvue\app.js                           | JavaScript         |          2 |          0 |          1 |          3 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\__uniappautomator.js          | JavaScript         |          2 |         14 |          1 |         17 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\__uniappchooselocation.js     | JavaScript         |         28 |          0 |          5 |         33 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\__uniappopenlocation.js       | JavaScript         |         28 |          0 |          5 |         33 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\__uniapppicker.js             | JavaScript         |         29 |          0 |          5 |         34 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\__uniappquill.js              | JavaScript         |          1 |          7 |          0 |          8 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\__uniappquillimageresize.js   | JavaScript         |          1 |          0 |          0 |          1 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\__uniappscan.js               | JavaScript         |         28 |          0 |          5 |         33 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\__uniappview.html             | HTML               |         20 |          0 |          4 |         24 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\app-config-service.js         | JavaScript         |          9 |          0 |          2 |         11 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\app-config.js                 | JavaScript         |          1 |          0 |          0 |          1 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\app-service.js                | JavaScript         |      4,536 |        203 |          1 |      4,740 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\app.css                       | CSS                |          1 |          1 |          3 |          5 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\manifest.json                 | JSON               |         98 |          0 |          0 |         98 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\pages\index\PersonalPage.css  | CSS                |        602 |         28 |         16 |        646 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\pages\index\about.css         | CSS                |         23 |          0 |          2 |         25 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\pages\index\dialogue.css      | CSS                |        168 |         36 |          1 |        205 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\pages\index\home.css          | CSS                |        393 |         83 |         16 |        492 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\pages\index\index.css         | CSS                |        144 |          7 |          7 |        158 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\pages\index\register.css      | CSS                |        144 |          7 |          7 |        158 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\pages\index\satisfication.css | CSS                |        126 |          7 |         10 |        143 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\pages\index\update_name.css   | CSS                |        181 |          8 |         11 |        200 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\app-plus\uni-app-view.umd.js           | JavaScript         |          3 |          4 |          1 |          8 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\mp-weixin\app.js                       | JavaScript         |         30 |          0 |          1 |         31 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\mp-weixin\app.json                     | JSON               |         19 |          0 |          0 |         19 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\mp-weixin\project.config.json          | JSON               |         29 |          0 |          0 |         29 |
+| d:\pythonpj\itr-smallApp\unpackage\dist\dev\mp-weixin\project.private.config.json  | JSON               |          7 |          0 |          0 |          7 |
+| Total                                                                              |                    |      9,203 |        601 |        333 |     10,137 |
++------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
